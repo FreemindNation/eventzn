@@ -6,9 +6,10 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { fontPoppins, fontSans } from "@/config/fonts";
+import { fontPoppins } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { GithubIcon } from "@/components/icons";
+import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: {
@@ -49,9 +50,7 @@ export default function RootLayout({
               {children}
             </main>
             <footer className="w-full flex items-center justify-center py-3">
-            <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-            <GithubIcon className="text-default-500" />
-          </Link>
+            <Footer />
             </footer>
           </div>
         </Providers>

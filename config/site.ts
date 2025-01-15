@@ -2,7 +2,7 @@ export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
   name: "EventZn",
-  description: "Event Management Platform",
+  description: "EvenZn is an event management platform.",
   navItems: [
     {
       label: "Home",
