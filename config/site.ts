@@ -9,30 +9,23 @@ export const siteConfig = {
       href: "/",
     },
     {
-      label: "Events",
-      href: "/events",
-    },
-    {
       label: "Profile",
       href: "/profile",
     },
   ],
   navMenuItems: [
     {
-      label: "Events",
-      href: "/events",
+      label: "Home",
+      href: "/",
     },
+    
     {
       label: "Profile",
       href: "/profile",
     },
     {
-      label: "Projects",
-      href: "/projects",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
+      label: "Signout",
+      href: "/sign-out",
     },
   ],
   links: {
