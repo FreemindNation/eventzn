@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // Connection pooling URL
+  directUrl = env("POSTGRES_URL_NON_POOLING") //direct connection URL
+}
+
+model User {
+  id          String         @id @default(cuid())
+  name        String?
+  email       String?        @unique
+  password    String?        // For hashed passwords
+  role        Role           @default(USER)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  registrations Registration[]
+}
+
+model Event {
+  id          String         @id @default(cuid())
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  location    String
+  imageUrl    String?        // Optional field for the event image URL
+  isFree      Boolean        @default(false) // Indicates if the event is free
+  ticketPrice Float?         // Price of the ticket (optional if isFree is true)
+  registrations Registration[]
+  createdAt   DateTime       @default(now())
+  createdBy   String          // User ID of the admin who created the event
+}
+
+model Registration {
+  id          String         @id @default(cuid())
+  userId      String
+  eventId     String
+  createdAt   DateTime       @default(now())
+
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event       Event          @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  USER
+  ADMIN
+}
