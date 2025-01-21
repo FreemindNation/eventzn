@@ -26,6 +26,7 @@ model Event {
   startTime   DateTime
   endTime     DateTime
   location    String
+  category    String
   imageUrl    String?        // Optional field for the event image URL
   isFree      Boolean        @default(false) // Indicates if the event is free
   ticketPrice Float?         // Price of the ticket (optional if isFree is true)
