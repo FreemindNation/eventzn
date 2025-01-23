@@ -1,7 +1,8 @@
 import { Button } from "@heroui/button";
 import Image from "next/image";
 
-import EventPage from "@/components/eventlist";
+import EventsPage from "@/components/eventlist";
+
 
 
 export default async function HomePage() {
@@ -34,7 +35,7 @@ export default async function HomePage() {
             priority
             alt="Hero Image"
             className="rounded-lg"
-            height={800}
+            height={1000}
             src="/hero.webp"
             width={1000}
           />
@@ -44,7 +45,7 @@ export default async function HomePage() {
       {/* Events Section */}
       <section className="px-8 py-16" id="events">
       
-        <EventPage />
+        <EventsPage />
       </section>
     </div>
   );
