@@ -24,21 +24,21 @@ export const formatDate = (dateString: Date): string => {
     return date.toLocaleString("en-GB", options);
   };
   
-export const formatPrice = (price: number ): string  => {
-  // if (!price) {
-  //   return null;
-  // }
+export const formatPrice = (price: number | null ): string | null => {
+  if (!price) {
+    return null;
+  }
 
   return `£${price.toFixed(2)}`;
 };
 
 export const truncateDescription = (
-  description: string ,
+  description: string | null ,
   maxLength: number = 100
-): string => {
-  // if (!description) {
-  //   return null;
-  // }
+): string | null => {
+  if (!description) {
+    return null;
+  }
 
   return description.length <= maxLength
     ? description

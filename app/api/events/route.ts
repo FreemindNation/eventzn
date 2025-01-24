@@ -1,6 +1,7 @@
-// app/api/events/route.ts
+
 
 import { NextResponse } from "next/server";
+
 import { getPaginatedEvents } from "@/lib/services/event-service";
 
 export async function GET(request: Request) {
@@ -10,12 +11,12 @@ export async function GET(request: Request) {
 
   try {
     const { events, totalEvents } = await getPaginatedEvents(page, perPage);
-    console.log("API Route Response:", { events, totalEvents });
+    
     
     return NextResponse.json({ events, totalEvents });
   } catch (error) {
     console.error("Error fetching events in route:", error);
-    // Ensure the payload is always an object
+    
 
     return NextResponse.json(
       { error: "Failed to fetch events" },

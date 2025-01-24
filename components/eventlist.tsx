@@ -10,6 +10,7 @@ import PaginationControls from "@/components/pagination";
 import { fetchEvents } from "@/lib/data";
 
 interface Event {
+  id: string,
   title: string;
   description: string | null;
   startTime: string;
@@ -79,7 +80,7 @@ export default function EventsPage() {
               </p>
             </CardBody>
             <CardFooter className="p-4">
-              <Link className="text-secondary font-semibold hover:underline" href="/">
+              <Link className="text-secondary font-semibold hover:underline" href={`/events/${event.id}`}>
                 Learn More
               </Link>
             </CardFooter>

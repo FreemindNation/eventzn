@@ -1,4 +1,4 @@
-// fetchEvents.ts
+
 
 export async function fetchEvents(page = 1, perPage = 6) {
   try {
@@ -11,7 +11,7 @@ export async function fetchEvents(page = 1, perPage = 6) {
     }
 
     const data = await res.json();
-    console.log("Fetched Events Data:", data);
+    
 
     return data;
   } catch (error) {
@@ -19,3 +19,29 @@ export async function fetchEvents(page = 1, perPage = 6) {
     throw error;
   }
 }
+
+export async function fetchEvent(id: string) {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL 
+
+  try {
+    const res = await fetch(`${baseUrl}/api/events/${id}`);
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.error("Fetch Events Error:", errorData);
+      throw new Error(errorData.error || "Failed to fetch event");
+    }
+
+    const data = await res.json();
+    
+    console.log(data, '<--fetched event');
+    
+
+    return data;
+  } catch (error) {
+    console.error("Error in fetchEvent:", error);
+    throw error;
+  }
+}
+
