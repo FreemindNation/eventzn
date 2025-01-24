@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { getEvent } from "@/lib/services/event-service";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+  const { id } = await params;
 
   
   try {

@@ -4,8 +4,9 @@ import Image from "next/image";
 import { fetchEvent } from "@/lib/data";
 
 
-export default async function EventPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function EventPage(props: { params: { id: string } }) {
+  const params = await props.params;
+  const { id }  = params;
   const event = await fetchEvent(id);
 
   

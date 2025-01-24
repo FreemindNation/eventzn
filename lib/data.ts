@@ -35,8 +35,6 @@ export async function fetchEvent(id: string) {
 
     const data = await res.json();
     
-    console.log(data, '<--fetched event');
-    
 
     return data;
   } catch (error) {
