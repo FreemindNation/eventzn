@@ -1,10 +1,10 @@
 import "./globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
-import { SessionProvider } from 'next-auth/react'
 
 import { Providers } from "./providers";
 
+import SessionProviderWrapper from "@/components/SessionProviderWrapper";
 import { siteConfig } from "@/config/site";
 import { fontPoppins, fontSans } from "@/config/fonts";
 
@@ -44,11 +44,11 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <SessionProvider>
+        <SessionProviderWrapper>
           <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
             {children}
           </Providers>
-        </SessionProvider>
+        </SessionProviderWrapper>
       </body>
     </html>
   );
