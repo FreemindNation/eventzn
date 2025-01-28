@@ -10,7 +10,6 @@ import {
   NavbarMenuItem,
 } from "@heroui/navbar";
 import { Button } from "@heroui/button";
-import { Link } from "@heroui/link";
 import NextLink from "next/link";
 import clsx from "clsx";
 import Image from "next/image";
@@ -29,7 +28,7 @@ export const Navbar = () => {
       {/* Navbar Start */}
       <NavbarContent className="basis-1/3" justify="start">
         <NavbarBrand>
-          <NextLink href="/" className="flex items-center gap-2">
+          <NextLink className="flex items-center gap-2" href="/">
             <Image
               alt="EventZn logo"
               height={38}
@@ -61,10 +60,10 @@ export const Navbar = () => {
         {session?.user ? (
           // Show Sign Out Button if user is logged in
           <Button
-            onClick={() => signOut()}
             className="bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 px-4 py-2"
             color="danger"
             variant="flat"
+            onPress={() => signOut()}
           >
             Sign Out
           </Button>
@@ -106,10 +105,10 @@ export const Navbar = () => {
             <NavbarMenuItem>
               {/* Sign Out Button for Mobile */}
               <Button
-                onPress={() => signOut()}
                 className="bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 px-4 py-2"
                 color="danger"
                 variant="flat"
+                onPress={() => signOut()}
               >
                 Sign Out
               </Button>
