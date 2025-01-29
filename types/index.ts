@@ -17,3 +17,12 @@ export type SignUpActionState = {
     general?: string[];
   };
 };
+
+export type SignInState = {
+  error: string | null;
+  submitted: boolean;
+  user?: { 
+    email: string;
+    password: string;
+  };
+};

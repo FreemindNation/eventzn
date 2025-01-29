@@ -23,6 +23,15 @@ export const Navbar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
 
+  // ✅ Filter "Dashboard" if user is not an Admin
+  const filteredNavItems = siteConfig.navItems.filter(
+    (item) => !(item.href === "/dashboard" && session?.user?.role !== "ADMIN")
+  );
+
+  const filteredNavMenuItems = siteConfig.navMenuItems.filter(
+    (item) => !(item.href === "/dashboard" && session?.user?.role !== "ADMIN")
+  );
+
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       {/* Navbar Start */}
@@ -38,7 +47,7 @@ export const Navbar = () => {
           </NextLink>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-6 ml-6">
-          {siteConfig.navItems.map((item) => (
+          {filteredNavItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(
@@ -60,7 +69,7 @@ export const Navbar = () => {
         {session?.user ? (
           // Show Sign Out Button if user is logged in
           <Button
-            className="bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 px-4 py-2"
+            className="bg-primary-500 text-white font-semibold rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-400 px-4 py-2"
             color="danger"
             variant="flat"
             onPress={() => signOut()}
@@ -70,20 +79,10 @@ export const Navbar = () => {
         ) : (
           // Show Sign In and Sign Up Buttons if user is not logged in
           <>
-            <Button
-              as={NextLink}
-              color="primary"
-              href="/sign-in"
-              variant="flat"
-            >
+            <Button as={NextLink} color="primary" href="/sign-in" variant="flat">
               Sign In
             </Button>
-            <Button
-              as={NextLink}
-              color="primary"
-              href="/sign-up"
-              variant="solid"
-            >
+            <Button as={NextLink} color="primary" href="/sign-up" variant="solid">
               Sign Up
             </Button>
           </>
@@ -105,7 +104,7 @@ export const Navbar = () => {
             <NavbarMenuItem>
               {/* Sign Out Button for Mobile */}
               <Button
-                className="bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 px-4 py-2"
+                className="bg-primary-500 text-white font-semibold rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-400 px-4 py-2"
                 color="danger"
                 variant="flat"
                 onPress={() => signOut()}
@@ -117,29 +116,19 @@ export const Navbar = () => {
             <>
               <NavbarMenuItem>
                 {/* Sign In Button for Mobile */}
-                <Button
-                  as={NextLink}
-                  color="primary"
-                  href="/sign-in"
-                  variant="flat"
-                >
+                <Button as={NextLink} color="primary" href="/sign-in" variant="flat">
                   Sign In
                 </Button>
               </NavbarMenuItem>
               <NavbarMenuItem>
                 {/* Sign Up Button for Mobile */}
-                <Button
-                  as={NextLink}
-                  color="primary"
-                  href="/sign-up"
-                  variant="solid"
-                >
+                <Button as={NextLink} color="primary" href="/sign-up" variant="solid">
                   Sign Up
                 </Button>
               </NavbarMenuItem>
             </>
           )}
-          {siteConfig.navItems.map((item) => (
+          {filteredNavMenuItems.map((item) => (
             <NavbarMenuItem key={item.href}>
               <NextLink
                 className={clsx(

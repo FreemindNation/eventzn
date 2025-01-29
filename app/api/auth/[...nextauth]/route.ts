@@ -10,7 +10,7 @@ import prisma from "@/lib/prisma";
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   pages: {
-    signIn: "/sign-up", // Redirect unauthenticated users here
+    signIn: "/sign-in", // Redirect unauthenticated users here
     error: "/auth/error", // Redirect for errors
     newUser: "/", // Redirect new users to home
   },
@@ -65,7 +65,8 @@ export const authOptions: AuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt", // Use JWT for session management
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // Use JWT for session management
   },
   callbacks: {
     async jwt({ token, user }) {

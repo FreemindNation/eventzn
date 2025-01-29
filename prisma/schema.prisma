@@ -17,6 +17,7 @@ model User {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   image       String?         // Optional field for user profile image
+  emailVerified DateTime?    // Nullable, used for OAuth sign-ins
   registrations Registration[]
   events      Event[]
   accounts    Account[]       // Relation to Account model
