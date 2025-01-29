@@ -13,6 +13,7 @@
   "seed": "npm run seed"
  },
  "dependencies": {
+  "@heroicons/react": "^2.2.0",
   "@heroui/button": "2.2.9",
   "@heroui/code": "2.2.6",
   "@heroui/input": "2.4.8",

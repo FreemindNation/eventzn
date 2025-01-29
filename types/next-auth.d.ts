@@ -7,7 +7,8 @@ declare module "next-auth" {
       id: string;
       email: string;
       name: string | null;
-      role: string; // Add custom fields here
+      role: string; 
+      image?: string;
     };
   }
 
@@ -16,7 +17,7 @@ declare module "next-auth" {
     email: string;
     name: string | null;
     role: string;
-    password?: string; // Optional if using Credentials Provider
+    password?: string; 
   }
 
   interface JWT {
