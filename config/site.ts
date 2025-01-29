@@ -12,7 +12,8 @@ export const siteConfig = {
       label: "Profile",
       href: "/profile",
     },
-    {label: "Dashboard",
+    {
+      label: "Dashboard",
       href: "/dashboard"
     }
   ],
@@ -21,15 +22,14 @@ export const siteConfig = {
       label: "Home",
       href: "/",
     },
-    
     {
       label: "Profile",
       href: "/profile",
     },
     {
-      label: "Signout",
-      href: "/sign-out",
-    },
+      label: "Dashboard",
+      href: "/dashboard"
+    }
   ],
   links: {
     github: "https://github.com/FreemindNation/eventzn",

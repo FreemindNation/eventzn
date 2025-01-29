@@ -23,7 +23,7 @@ export default async function EventPage(props: { params: { id: string } }) {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen my-20">
+    <div className="bg-gray-50 dark:bg-gray-800 min-h-screen my-20">
       <div className="w-full h-64 md:h-96 bg-gray-300 mb-8 ">
         <Image
           alt={event.title}
@@ -53,7 +53,7 @@ export default async function EventPage(props: { params: { id: string } }) {
             <p className="text-gray-600">{event.organiser || "Unknown"}</p>
           </div>
         </div>
-        <div className="bg-white shadow-md rounded-lg p-6 space-y-6">
+        <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg p-6 space-y-6">
           <div>
             <h4 className="text-2xl font-bold text-gray-800">
               {event.isFree ? "Free" : event.ticketPrice || 0}
