@@ -3,7 +3,6 @@ import { formatDate } from "../utils";
 import prisma from "@/lib/prisma";
 
 
-
 export async function getUserRegistrations(userId: string) {
   try {
     const registrations = await prisma.registration.findMany({
