@@ -3,8 +3,14 @@
 import { useState, useEffect } from "react";
 import { Tabs, Tab } from "@heroui/tabs";
 import { Card, CardHeader, CardBody } from "@heroui/card";
-import { UsersIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
+import {
+  UsersIcon,
+  CalendarDaysIcon,
+  PlusIcon,
+} from "@heroicons/react/24/outline";
 import { useSearchParams } from "next/navigation";
+import { Link } from "@heroui/link";
+import { Button } from "@heroui/button";
 
 import EventsTable from "@/components/events-table";
 import EventSearchFilter from "@/components/event-search-filter";
@@ -28,11 +34,14 @@ export default function DashboardPage() {
     }
   }, [currentPage, query, category, selectedTab]);
 
-  
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { events, totalEvents } = await fetchFilteredEvents(query, category, currentPage);
+      const { events, totalEvents } = await fetchFilteredEvents(
+        query,
+        category,
+        currentPage
+      );
 
       setEvents(events);
       setTotalPages(Math.ceil(totalEvents / 6));
@@ -47,40 +56,68 @@ export default function DashboardPage() {
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-      <Tabs fullWidth color="primary" selectedKey={selectedTab} onSelectionChange={(key) => setSelectedTab(key as string)}>
-        <Tab key="events" title={
-          <div className="flex items-center gap-2">
-            <CalendarDaysIcon className="w-5 h-5" />
-            <span>Events</span>
-          </div>
-        }
+      <Tabs
+        fullWidth
+        color="primary"
+        selectedKey={selectedTab}
+        onSelectionChange={(key) => setSelectedTab(key as string)}
+      >
+        <Tab
+          key="events"
+          title={
+            <div className="flex items-center gap-2">
+              <CalendarDaysIcon className="w-5 h-5" />
+              <span>Events</span>
+            </div>
+          }
         />
-        <Tab key="users" title={
-          <div className="flex items-center gap-2">
-            <UsersIcon className="w-5 h-5" />
-            <span>Users</span>
-          </div>
-        }
+        <Tab
+          key="users"
+          title={
+            <div className="flex items-center gap-2">
+              <UsersIcon className="w-5 h-5" />
+              <span>Users</span>
+            </div>
+          }
         />
       </Tabs>
 
       <Card className="mt-6">
-        <CardHeader>
+        <CardHeader className="flex justify-between items-center">
           <h2 className="text-xl font-semibold">
             {selectedTab === "events" ? "Manage Events" : "Manage Users"}
           </h2>
+          {selectedTab === "events" && (
+            <Button
+              as={Link}
+              color="primary"
+              href="/dashboard/events/create"
+              startContent={<PlusIcon className="w-5 h-5" />}
+              variant="solid"
+            >
+              Create Event
+            </Button>
+          )}
         </CardHeader>
+
         <CardBody>
           {selectedTab === "events" ? (
             <>
               <EventSearchFilter />
-              {loading ? <p>Loading events...</p> : <EventsTable events={events} />}
+              {loading ? (
+                <p>Loading events...</p>
+              ) : (
+                <EventsTable events={events} />
+              )}
             </>
           ) : (
-            <p className="text-gray-600">Here you will manage all users (coming soon).</p>
+            <p className="text-gray-600">
+              Here you will manage all users (coming soon).
+            </p>
           )}
         </CardBody>
       </Card>
+
       <PaginationControls totalPages={totalPages} />
     </div>
   );

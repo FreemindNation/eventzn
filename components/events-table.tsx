@@ -24,7 +24,7 @@ const columns = [
   { name: "Ticket Price", uid: "ticketPrice" },
   { name: "Date Created", uid: "createdAt" },
   { name: "Category", uid: "category" },
-  { name: "Registrations", uid: "registrations" },
+  { name: "Booked Tickets", uid: "bookedTickets" },
   { name: "Actions", uid: "actions" },
 ];
 
@@ -64,7 +64,7 @@ export default function EventsTable({ events }: { events: any[] }) {
 
             <TableCell>{event.category}</TableCell>
 
-            <TableCell>{event.registrationsCount || 0}</TableCell>
+            <TableCell>{event.registrations || 0}</TableCell>
 
             <TableCell>
               <div className="flex items-center gap-2">

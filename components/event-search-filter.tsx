@@ -42,7 +42,7 @@ export default function EventSearchFilter() {
       <div className="flex items-center gap-2">
         <FunnelIcon className="w-5 h-5 text-gray-500" />
         <Select
-          className="w-40"
+          className="w-40 mb-6"
           defaultSelectedKeys={new Set([searchParams.get("category") || "All"])}
           label=" Select Category" labelPlacement="inside"
           onSelectionChange={(keys) => handleFilterChange(keys as Set<string>)}

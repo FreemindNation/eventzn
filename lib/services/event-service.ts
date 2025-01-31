@@ -49,6 +49,7 @@ export async function getFilteredEvents(
         createdByUser: {
           select: { name: true },
         },
+        _count: { select: { registrations: true } },
       },
     });
 
@@ -67,6 +68,7 @@ export async function getFilteredEvents(
       createdAt: formatDate(event.createdAt),
       imageUrl: event.imageUrl ?? "",
       organiser: event.createdByUser?.name ?? "Unknown",
+      registrations: event._count.registrations,
     }));
 
     return { events: formattedEvents, totalEvents };
