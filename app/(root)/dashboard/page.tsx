@@ -1,16 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, Tab } from "@heroui/tabs";
 import { Card, CardHeader, CardBody } from "@heroui/card";
 import { UsersIcon, CalendarDaysIcon } from "@heroicons/react/24/outline";
+import { useSearchParams } from "next/navigation";
+
+import EventsTable from "@/components/events-table";
+import EventSearchFilter from "@/components/event-search-filter";
+import { fetchFilteredEvents } from "@/lib/data";
+import PaginationControls from "@/components/pagination";
 
 export default function DashboardPage() {
-  const [selectedTab, setSelectedTab] = useState<string>("events"); 
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams?.get("page") || "1", 10);
+  const [totalPages, setTotalPages] = useState(1);
+  const query = searchParams.get("query") || "";
+  const category = searchParams.get("category") || "All";
+
+  const [selectedTab, setSelectedTab] = useState<string>("events");
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (selectedTab === "events") {
+      fetchData();
+    }
+  }, [currentPage, query, category, selectedTab]);
+
+  
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const { events, totalEvents } = await fetchFilteredEvents(query, category, currentPage);
+
+      setEvents(events);
+      setTotalPages(Math.ceil(totalEvents / 6));
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+
       <Tabs fullWidth color="primary" selectedKey={selectedTab} onSelectionChange={(key) => setSelectedTab(key as string)}>
         <Tab key="events" title={
           <div className="flex items-center gap-2">
@@ -27,6 +63,7 @@ export default function DashboardPage() {
         }
         />
       </Tabs>
+
       <Card className="mt-6">
         <CardHeader>
           <h2 className="text-xl font-semibold">
@@ -35,12 +72,16 @@ export default function DashboardPage() {
         </CardHeader>
         <CardBody>
           {selectedTab === "events" ? (
-            <p className="text-gray-600">Here you will manage all events (coming soon).</p>
+            <>
+              <EventSearchFilter />
+              {loading ? <p>Loading events...</p> : <EventsTable events={events} />}
+            </>
           ) : (
             <p className="text-gray-600">Here you will manage all users (coming soon).</p>
           )}
         </CardBody>
       </Card>
+      <PaginationControls totalPages={totalPages} />
     </div>
   );
 }

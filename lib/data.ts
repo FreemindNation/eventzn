@@ -1,24 +1,28 @@
 
 
-export async function fetchEvents(page = 1, perPage = 6) {
+export async function fetchFilteredEvents(query = "", category = "", page = 1) {
   try {
-    const res = await fetch(`/api/events?page=${page}&perPage=${perPage}`);
+    // ✅ Construct the API URL dynamically
+    const url = new URL("/api/events", window.location.origin);
+    url.searchParams.set("page", page.toString()); // ✅ Ensure page is always set
+
+    if (query) url.searchParams.set("query", query); // ✅ Add search query if present
+    if (category && category !== "All") url.searchParams.set("category", category); // ✅ Add category filter
+
+    // ✅ Fetch filtered events from API
+    const res = await fetch(url.toString());
 
     if (!res.ok) {
-      const errorData = await res.json();
-      console.error("Fetch Events Error:", errorData);
-      throw new Error(errorData.error || "Failed to fetch events");
+      throw new Error(`Failed to fetch events: ${res.statusText}`);
     }
 
-    const data = await res.json();
-    
-
-    return data;
+    return await res.json(); // ✅ Return JSON response
   } catch (error) {
-    console.error("Error in fetchEvents:", error);
-    throw error;
+    console.error("Error fetching filtered events:", error);
+    return { events: [], totalEvents: 0, error: "Failed to fetch events." };
   }
 }
+
 
 export async function fetchEvent(id: string) {
   const baseUrl =

@@ -23,7 +23,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ totalPages }) =
   };
 
   return (
-    <div className="flex flex-col items-center gap-5">
+    <div className="flex flex-col items-center mt-6 gap-5">
       <Pagination
         color="secondary"
         page={currentPage}

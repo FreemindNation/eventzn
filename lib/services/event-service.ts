@@ -23,13 +23,26 @@ interface PaginatedEvents {
   totalEvents: number;
 }
 
-export async function getPaginatedEvents(page: number, perPage: number): Promise<PaginatedEvents> {
+export async function getFilteredEvents(
+  page: number,
+  perPage: number,
+  query: string = "",
+  category: string = ""
+): Promise<PaginatedEvents> {
   const skip = (page - 1) * perPage;
 
   try {
-    
+    const where: any = {};
+
+    if (query) {
+      where.title = { contains: query, mode: "insensitive" }; 
+    }
+    if (category && category !== "All") {
+      where.category = category;
+    }
 
     const events = await prisma.event.findMany({
+      where,
       skip,
       take: perPage,
       include: {
@@ -39,16 +52,7 @@ export async function getPaginatedEvents(page: number, perPage: number): Promise
       },
     });
 
-    
-
-    if (!events || events.length === 0) {
-      console.warn("No events found for the given page and perPage.");
-      
-      return { events: [], totalEvents: 0 };
-    }
-
-    const totalEvents = await prisma.event.count();
-    
+    const totalEvents = await prisma.event.count({ where });
 
     const formattedEvents: FormattedEvent[] = events.map((event) => ({
       id: event.id,
@@ -61,17 +65,15 @@ export async function getPaginatedEvents(page: number, perPage: number): Promise
       isFree: event.isFree,
       ticketPrice: formatPrice(event.ticketPrice ?? 0),
       createdAt: formatDate(event.createdAt),
-      imageUrl: event.imageUrl ?? '',
+      imageUrl: event.imageUrl ?? "",
       organiser: event.createdByUser?.name ?? "Unknown",
     }));
 
-    
-
     return { events: formattedEvents, totalEvents };
   } catch (error) {
-    console.error("Error in getPaginatedEvents service:", error);
+    console.error("Error in getFilteredEvents service:", error);
     
-    throw new Error("Failed to fetch events");
+    return { events: [], totalEvents: 0 };
   }
 }
 
@@ -89,9 +91,6 @@ export async function getEvent(id: string): Promise<FormattedEvent | null> {
   if (!event) {
     return null; 
   }
-
-
-  
   
   return {
     id: event.id,

@@ -1,7 +1,7 @@
 import { Button } from "@heroui/button";
 import Image from "next/image";
 
-import EventsPage from "@/components/eventlist";
+import EventsPage from "@/components/event-list";
 
 
 
