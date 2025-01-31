@@ -26,3 +26,20 @@ export type SignInState = {
     password: string;
   };
 };
+
+export type EventFormState = {
+  error: string;
+  validationErrors: {
+    title?: string[];
+    description?: string[];
+    startTime?: string[];
+    endTime?: string[];
+    location?: string[];
+    category?: string[];
+    isFree?: string[];
+    ticketPrice?: string[];
+    createdBy?: string[];
+    imageUrl?: string[];
+  };
+  success?: boolean;
+};

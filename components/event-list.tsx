@@ -18,6 +18,7 @@ interface Event {
   endTime: string;
   location: string;
   category: string;
+  isFree: boolean;
   ticketPrice: string | null;
   createdAt: string;
   imageUrl: string | null;
@@ -51,6 +52,8 @@ export default function EventsPage() {
 
     fetchData();
   }, [currentPage, query, category]);
+
+  
 
   return (
     <div className="container mx-auto px-8 py-16">
@@ -94,7 +97,8 @@ export default function EventsPage() {
                     <span className="font-medium">Category:</span> {event.category}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                    <span className="font-medium">Ticket Price:</span> {event.ticketPrice}
+                    <span className="font-medium">Ticket Price:</span> {""}
+                    {event.isFree ? "Free" : `${event.ticketPrice ?? 0}`}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                     <span className="font-medium">Organiser:</span> {event.organiser}

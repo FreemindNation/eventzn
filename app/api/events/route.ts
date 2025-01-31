@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getFilteredEvents } from "@/lib/services/event-service";
+import { createEvent, getFilteredEvents } from "@/lib/services/event-service";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -25,3 +25,33 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 });
   }
 }
+
+
+export async function POST(req: Request) {
+  try {
+    const formData = await req.formData();
+
+    const eventData = Object.fromEntries(formData) as Record<string, string>;
+
+    // Convert fields properly
+    const parsedEvent = {
+      ...eventData,
+      isFree: eventData.isFree === "true",
+      ticketPrice: eventData.isFree === "true" ? 0 : Number(eventData.ticketPrice),
+      startTime: new Date(eventData.startTime),
+      endTime: new Date(eventData.endTime),
+    };
+
+    const newEvent = await createEvent(parsedEvent);
+
+    return NextResponse.json(newEvent, { status: 201 });
+  } catch (error) {
+    console.error("Error in event creation API:", error);
+
+    return NextResponse.json(
+      { error: "Failed to create event" },
+      { status: 500 }
+    );
+  }
+}
+

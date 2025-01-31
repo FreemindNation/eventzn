@@ -1,7 +1,10 @@
 
 
+import { EventSchema } from "../validation";
+
 import prisma from "@/lib/prisma";
 import { formatDate, truncateDescription, formatPrice } from "@/lib/utils";
+
 
 interface FormattedEvent {
   id: string,
@@ -108,4 +111,41 @@ export async function getEvent(id: string): Promise<FormattedEvent | null> {
     imageUrl: event.imageUrl || "",
     organiser: event.createdByUser?.name ?? "Unknown",
   };
+}
+
+interface EventData {
+  title: string;
+  description?: string;
+  startTime: Date;
+  endTime: Date;
+  location: string;
+  category: string;
+  imageUrl?: string;
+  isFree: boolean;
+  ticketPrice?: number;
+  createdBy: string;
+}
+
+export async function createEvent(eventData: any) {
+  try {
+
+    if (!eventData) {
+      throw new Error("Event data is missing or invalid.");
+    }
+    
+    const formattedEvent = {
+      ...eventData,
+      startTime: new Date(eventData.startTime), 
+      endTime: new Date(eventData.endTime),
+    };
+    
+    const newEvent = await prisma.event.create({
+      data: formattedEvent,
+    });
+
+    return newEvent;
+  } catch (error) {
+    console.error("Error in createEvent service:", error);
+    throw new Error("Failed to create event.");
+  }
 }
