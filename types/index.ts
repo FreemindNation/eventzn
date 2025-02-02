@@ -43,3 +43,31 @@ export type EventFormState = {
   };
   success?: boolean;
 };
+
+export interface FormattedEvent {
+  id: string,
+  title: string;
+  description: string ;
+  startTime: Date;
+  endTime: Date;
+  location: string;
+  category: string;
+  isFree: boolean,
+  ticketPrice: number;
+  createdAt: Date;
+  imageUrl?: string;
+  createdBy: string;
+}
+
+export interface EventData {
+  title: string;
+  description?: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  category: string;
+  imageUrl?: string;
+  isFree: boolean;
+  ticketPrice?: number;
+  createdBy: string;
+}

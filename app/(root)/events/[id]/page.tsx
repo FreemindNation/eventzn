@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@heroui/button";
 
+import { formatDate } from "@/lib/utils"
 import { fetchEvent } from "@/lib/data";
 
 
@@ -38,7 +39,7 @@ export default async function EventPage(props: { params: { id: string } }) {
           <h1 className="text-5xl font-bold text-gray-800 mb-6">{event.title}</h1>
           <div className="text-gray-700">
             <h2 className="text-lg font-bold mb-2">Date and Time</h2>
-            <p>{event.startTime} - {event.endTime}</p>
+            <p>{formatDate(event.startTime)} - {formatDate(event.endTime)}</p>
           </div>
           <div className="text-gray-700">
             <h2 className="text-lg font-bold mb-2">Location</h2>
@@ -50,7 +51,7 @@ export default async function EventPage(props: { params: { id: string } }) {
           </div>
           <div>
             <h2 className="text-lg font-bold text-gray-800 mb-2">Organiser</h2>
-            <p className="text-gray-600">{event.organiser || "Unknown"}</p>
+            <p className="text-gray-600">{event.createdBy || "Unknown"}</p>
           </div>
         </div>
         <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg p-6 space-y-6">

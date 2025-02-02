@@ -17,6 +17,7 @@ import {
   TrashIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
+import { formatPrice } from "@/lib/utils";
 
 const columns = [
   { name: "Image", uid: "image" },
@@ -55,7 +56,7 @@ export default function EventsTable({ events }: { events: any[] }) {
             <TableCell className="font-medium">{event.title}</TableCell>
 
             <TableCell>
-              {event.isFree ? "Free" : `${event.ticketPrice}`}
+              {event.isFree ? "Free" : `${formatPrice(event.ticketPrice)}`}
             </TableCell>
 
             <TableCell>
@@ -82,7 +83,7 @@ export default function EventsTable({ events }: { events: any[] }) {
                   <Button
                     isIconOnly
                     as="a"
-                    href={`/dashboard/events/edit/${event.id}`}
+                    href={`/dashboard/events/${event.id}/edit`}
                     variant="light"
                   >
                     <PencilSquareIcon className="w-5 h-5 text-yellow-500" />

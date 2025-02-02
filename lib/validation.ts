@@ -54,7 +54,7 @@ export const EventSchema = z.object({
   }),
   location: z.string().min(3, "Location must be at least 3 characters"),
   category: z.string().min(1, "Category is required"),
-  imageUrl: z.string().url("Invalid image URL").optional(),
+  imageUrl: z.string().url("Invalid image URL").or(z.literal("")).optional(),
   isFree: z.coerce.boolean(), // ✅ Convert from string "true"/"false" to boolean
   ticketPrice: z
     .preprocess(

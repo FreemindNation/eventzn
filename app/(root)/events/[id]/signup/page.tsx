@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { Link } from "@heroui/link";
 
 import { fetchEvent } from "@/lib/data";
+import { formatDate } from "@/lib/utils";
 
 export default function SignUpEventPage() {
   const { data: session } = useSession();
@@ -93,7 +94,7 @@ export default function SignUpEventPage() {
         <>
           <h1 className="text-2xl font-bold mb-4">{event.title}</h1>
           <p className="text-gray-700">{event.description}</p>
-          <p className="mt-2 font-semibold">Date & Time: {event.startTime} - {event.endTime}</p>
+          <p className="mt-2 font-semibold">Date & Time: {formatDate(event.startTime)} - {formatDate(event.endTime)}</p>
           <p className="mt-1">Location: {event.location}</p>
           <p className="mt-1">Category: {event.category}</p>
           <p className="mt-1 font-semibold">
@@ -101,7 +102,7 @@ export default function SignUpEventPage() {
           </p>
 
           {!success && (
-            <Button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400" disabled={isLoading} onClick={handleBookTicket}>
+            <Button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400" disabled={isLoading} onPress={handleBookTicket}>
               {isLoading ? "Booking..." : "Book Ticket"}
             </Button>
           )}

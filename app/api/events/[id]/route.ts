@@ -1,7 +1,7 @@
 
 import { NextResponse } from "next/server";
 
-import { getEvent } from "@/lib/services/event-service";
+import { getEvent, updateEvent } from "@/lib/services/event-service";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { id } = await params;
@@ -19,5 +19,18 @@ export async function GET(request: Request, { params }: { params: { id: string }
     console.error("Error fetching event:", error);
     
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
+
+export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+  try {
+    const body = await req.json();
+    const updatedEvent = await updateEvent(params.id, body);
+
+    return NextResponse.json(updatedEvent);
+  } catch (error) {
+    console.error("Error updating event:", error);
+    
+    return NextResponse.json({ error: "Failed to update event" }, { status: 500 });
   }
 }

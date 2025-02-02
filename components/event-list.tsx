@@ -6,24 +6,13 @@ import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
+import { FormattedEvent } from "@/types";
 import PaginationControls from "@/components/pagination";
 import { fetchFilteredEvents } from "@/lib/data";
 import EventSearchFilter from "@/components/event-search-filter";
+import { formatDate, formatPrice, truncateDescription } from "@/lib/utils";
 
-interface Event {
-  id: string;
-  title: string;
-  description: string | null;
-  startTime: string;
-  endTime: string;
-  location: string;
-  category: string;
-  isFree: boolean;
-  ticketPrice: string | null;
-  createdAt: string;
-  imageUrl: string | null;
-  organiser: string;
-}
+
 
 export default function EventsPage() {
   const searchParams = useSearchParams();
@@ -31,7 +20,7 @@ export default function EventsPage() {
   const query = searchParams.get("query") || "";
   const category = searchParams.get("category") || "All";
 
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<FormattedEvent[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
@@ -86,9 +75,9 @@ export default function EventsPage() {
                 </CardHeader>
                 <CardBody className="p-4">
                   <h2 className="text-lg font-bold text-gray-900 dark:text-white">{event.title}</h2>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{event.description}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{truncateDescription(event.description)}</p>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                    <span className="font-medium">Date:</span> {event.startTime}
+                    <span className="font-medium">Date:</span> {formatDate(event.startTime)}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                     <span className="font-medium">Location:</span> {event.location}
@@ -98,10 +87,10 @@ export default function EventsPage() {
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                     <span className="font-medium">Ticket Price:</span> {""}
-                    {event.isFree ? "Free" : `${event.ticketPrice ?? 0}`}
+                    {event.isFree ? "Free" : `${formatPrice(event.ticketPrice) ?? 0}`}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                    <span className="font-medium">Organiser:</span> {event.organiser}
+                    <span className="font-medium">Organiser:</span> {event.createdBy}
                   </p>
                 </CardBody>
                 <CardFooter className="p-4">

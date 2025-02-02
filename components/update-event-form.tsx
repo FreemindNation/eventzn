@@ -10,25 +10,45 @@ import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { Link } from "@heroui/link";
 import { useRouter } from "next/navigation";
 import { Form } from "@heroui/form";
+import { parseAbsoluteToLocal } from "@internationalized/date"
 
 import { EventFormState } from "@/types";
-import { CreateEventAction } from "@/lib/actions/create-event";
+import { updateEventAction, } from "@/lib/actions/update-event";
 
+
+interface UpdateEventFormProps {
+  eventData: {
+    id: string;
+    title: string;
+    description?: string;
+    startTime: Date;
+    endTime: Date;
+    location: string;
+    category: string;
+    imageUrl?: string;
+    isFree: boolean;
+    ticketPrice?: number;
+    createdBy: string;
+  };
+}
 
 const initialState: EventFormState = {
   error: "",
   validationErrors: {},
+  success: false,
 };
 
-export default function CreateEventForm() {
+export default function UpdateEventForm({ eventData }: UpdateEventFormProps) {
   const { data: session } = useSession();
   const router = useRouter();
-  const [isFree, setIsFree] = useState(true);
+  const [isFree, setIsFree] = useState(eventData.isFree);
+  const updateEventWithId = updateEventAction.bind(null, eventData.id)
 
   const [state, action, isPending] = useActionState<EventFormState, FormData>(
-    CreateEventAction,
+    updateEventWithId,
     initialState
   );
+  
 
   useEffect(() => {
     if (state.success) {
@@ -39,33 +59,66 @@ export default function CreateEventForm() {
   return (
     <Card className="max-w-3xl mx-auto">
       <CardHeader>
-        <h2 className="text-xl font-semibold">Fill out the form below to create a new event:</h2>
+        <h2 className="text-xl font-semibold">Update Event</h2>
       </CardHeader>
       <CardBody>
         <Form action={action} className="space-y-4">
-          <Input isRequired label="Title" name="title" type="text" onKeyDown={() => {}}/>
+          <Input
+            isRequired
+            defaultValue={eventData.title}
+            label="Title"
+            name="title"
+            type="text"
+            onKeyDown={() => {}}
+          />
           {state.validationErrors?.title && (
             <p className="text-red-500 text-sm">{state.validationErrors.title[0]}</p>
           )}
 
-          <Textarea label="Description" name="description" onKeyDown={() => {}}  />
+          <Textarea
+            defaultValue={eventData.description}
+            label="Description"
+            name="description"
+            onKeyDown={() => {}}
+          />
 
-          <DatePicker isRequired label="Start Time" name="startTime" granularity="minute" />
+          <DatePicker
+            isRequired
+            //@ts-ignore
+            defaultValue={parseAbsoluteToLocal(eventData.startTime.toISOString())}
+            granularity="minute"
+            label="Start Time"
+            name="startTime"
+
+          />
           {state.validationErrors?.startTime && (
             <p className="text-red-500 text-sm">{state.validationErrors.startTime[0]}</p>
           )}
 
-          <DatePicker isRequired label="End Time" name="endTime" granularity="minute" />
+          <DatePicker
+            isRequired
+            //@ts-ignore
+            defaultValue={parseAbsoluteToLocal(eventData.endTime.toISOString())}
+            granularity="minute"
+            label="End Time"
+            name="endTime"
+          />
           {state.validationErrors?.endTime && (
             <p className="text-red-500 text-sm">{state.validationErrors.endTime[0]}</p>
           )}
 
-          <Input isRequired label="Location" name="location" onKeyDown={() => {}}/>
+          <Input
+            isRequired
+            defaultValue={eventData.location}
+            label="Location"
+            name="location"
+            onKeyDown={() => {}}
+          />
           {state.validationErrors?.location && (
             <p className="text-red-500 text-sm">{state.validationErrors.location[0]}</p>
           )}
 
-          <Select isRequired label="Category" name="category">
+          <Select isRequired defaultSelectedKeys={[eventData.category]} label="Category" name="category">
             <SelectItem key="Music">Music</SelectItem>
             <SelectItem key="Sports">Sports</SelectItem>
             <SelectItem key="Technology">Technology</SelectItem>
@@ -75,14 +128,20 @@ export default function CreateEventForm() {
             <p className="text-red-500 text-sm">{state.validationErrors.category[0]}</p>
           )}
 
-          <Input label="Image URL" name="imageUrl" type="url"/>
+          <Input
+            defaultValue={eventData.imageUrl}
+            label="Image URL"
+            name="imageUrl"
+            type="url"
+            onKeyDown={() => {}}
+          />
           {state.validationErrors?.imageUrl && (
             <p className="text-red-500 text-sm">{state.validationErrors.imageUrl[0]}</p>
           )}
 
-          {/* Select Free/Paid */}
           <Select
             isRequired
+            defaultSelectedKeys={[eventData.isFree ? "true" : "false"]}
             label="Is the event free?"
             name="isFree"
             onChange={(e) => setIsFree(e.target.value === "true")}
@@ -96,14 +155,19 @@ export default function CreateEventForm() {
 
           {!isFree && (
             <div>
-              <Input label="Ticket Price" name="ticketPrice" type="number" onKeyDown={() => {}} />
+              <Input
+                defaultValue={(eventData.ticketPrice?.toFixed(2))}
+                label="Ticket Price"
+                name="ticketPrice"
+                type="number"
+                onKeyDown={() => {}}
+              />
               {state.validationErrors?.ticketPrice && (
                 <p className="text-red-500 text-sm">{state.validationErrors.ticketPrice[0]}</p>
               )}
             </div>
           )}
-
-          {/* Created By Field */}
+          
           {!session?.user?.id && (
             <p className="text-red-500 text-sm">Error: Could not determine event creator.</p>
           )}
@@ -113,7 +177,7 @@ export default function CreateEventForm() {
 
           <CardFooter className="flex gap-4">
             <Button color="primary" disabled={isPending} type="submit">
-              {isPending ? "Creating..." : "Create Event"}
+              {isPending ? "Updating..." : "Update Event"}
             </Button>
             <Button as={Link} color="secondary" href="/dashboard" type="button">
               Cancel

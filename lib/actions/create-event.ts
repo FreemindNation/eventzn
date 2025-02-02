@@ -4,8 +4,9 @@ import { revalidatePath } from "next/cache";
 
 import { createEvent } from "@/lib/services/event-service";
 import { EventSchema } from "@/lib/validation";
+import { EventFormState } from "@/types";
 
-export async function createEventAction(prevState: any, formData: FormData) {
+export async function CreateEventAction(prevState: EventFormState, formData: FormData) {
   try {
     const rawData = {
       title: formData.get("title") as string,
