@@ -8,9 +8,10 @@ import {
   CalendarDaysIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Link } from "@heroui/link";
 import { Button } from "@heroui/button";
+import { Alert } from "@heroui/alert";
 
 import EventsTable from "@/components/events-table";
 import EventSearchFilter from "@/components/event-search-filter";
@@ -19,38 +20,39 @@ import PaginationControls from "@/components/pagination";
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const currentPage = parseInt(searchParams?.get("page") || "1", 10);
-  const [totalPages, setTotalPages] = useState(1);
   const query = searchParams.get("query") || "";
   const category = searchParams.get("category") || "All";
 
   const [selectedTab, setSelectedTab] = useState<string>("events");
   const [events, setEvents] = useState<any[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [showDeletedAlert, setShowDeletedAlert] = useState(
+    searchParams.get("deleted") === "true"
+  );
 
+ 
   useEffect(() => {
     if (selectedTab === "events") {
-      fetchData();
+      setLoading(true);
+      fetchFilteredEvents(query, category, currentPage)
+        .then(({ events, totalEvents }) => {
+          setEvents(events);
+          setTotalPages(Math.ceil(totalEvents / 6));
+        })
+        .catch((error) => console.error("Error fetching events:", error))
+        .finally(() => setLoading(false));
     }
-  }, [currentPage, query, category, selectedTab]);
+  }, [selectedTab, query, category, currentPage]);
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const { events, totalEvents } = await fetchFilteredEvents(
-        query,
-        category,
-        currentPage
-      );
 
-      setEvents(events);
-      setTotalPages(Math.ceil(totalEvents / 6));
-    } catch (error) {
-      console.error("Error fetching events:", error);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (showDeletedAlert) {
+      router.replace("/dashboard", { scroll: false });
     }
-  };
+  }, [showDeletedAlert, router]);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -82,11 +84,13 @@ export default function DashboardPage() {
         />
       </Tabs>
 
+      
       <Card className="mt-6">
         <CardHeader className="flex justify-between items-center">
           <h2 className="text-xl font-semibold">
             {selectedTab === "events" ? "Manage Events" : "Manage Users"}
           </h2>
+
           {selectedTab === "events" && (
             <Button
               as={Link}
@@ -101,19 +105,20 @@ export default function DashboardPage() {
         </CardHeader>
 
         <CardBody>
+          
+          {showDeletedAlert && (
+            <Alert className="mb-4" color="success" onClose={() => setShowDeletedAlert(false)}>
+              Event deleted successfully.
+            </Alert>
+          )}
+
           {selectedTab === "events" ? (
             <>
               <EventSearchFilter />
-              {loading ? (
-                <p>Loading events...</p>
-              ) : (
-                <EventsTable events={events} />
-              )}
+              {loading ? <p>Loading events...</p> : <EventsTable events={events} />}
             </>
           ) : (
-            <p className="text-gray-600">
-              Here you will manage all users (coming soon).
-            </p>
+            <p className="text-gray-600">Here you will manage all users (coming soon).</p>
           )}
         </CardBody>
       </Card>

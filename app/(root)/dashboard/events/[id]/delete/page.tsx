@@ -1,9 +1,37 @@
-import React from 'react'
+import { notFound } from "next/navigation";
+import { getEvent } from "@/lib/services/event-service";
+import { Button } from "@heroui/button";
+import Link from "next/link";
+import { deleteEventAction } from "@/lib/actions/delete-event";
 
-function DeleteEvent() {
+export default async function DeleteEventPage({ params }: { params: Promise<{ id: string }> }) {
+  
+  const { id } = await params;
+  const event = await getEvent(id);
+
+  if (!event) return notFound(); // Show 404 if event does not exist
+
   return (
-    <div>DeleteEvent</div>
-  )
-}
+    <div className="max-w-3xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4 text-red-600">Delete Event</h1>
+      <p className="mb-4">Are you sure you want to delete this event?</p>
 
-export default DeleteEvent
+      <div className="p-4 border rounded bg-gray-100 dark:bg-gray-800">
+        <h2 className="text-lg font-semibold">{event.title}</h2>
+        <p className="text-gray-500">{event.location}</p>
+        <p className="text-gray-500">{new Date(event.startTime).toLocaleString()}</p>
+      </div>
+
+      <div className="flex gap-4 mt-6">
+        <form action={deleteEventAction.bind(null, id)}>
+          <Button type="submit" color="danger">
+            Yes, Delete
+          </Button>
+        </form>
+        <Button as={Link} color="secondary" href="/dashboard">
+          Cancel
+        </Button>
+      </div>
+    </div>
+  );
+}

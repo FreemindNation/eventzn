@@ -18,6 +18,7 @@ import {
   EyeIcon,
 } from "@heroicons/react/24/outline";
 import { formatPrice } from "@/lib/utils";
+import { Link } from "@heroui/link";
 
 const columns = [
   { name: "Image", uid: "image" },
@@ -90,7 +91,7 @@ export default function EventsTable({ events }: { events: any[] }) {
                   </Button>
                 </Tooltip>
                 <Tooltip color="danger" content="Delete Event">
-                  <Button isIconOnly variant="light">
+                  <Button isIconOnly as={Link} color="danger" href={`/dashboard/events/${event.id}/delete`} variant="light">
                     <TrashIcon className="w-5 h-5 text-red-500" />
                   </Button>
                 </Tooltip>
