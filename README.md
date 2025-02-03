@@ -7,7 +7,7 @@ Eventzn is a modern event management platform that allows users to explore, regi
 ### ✨ Features
 
 - 🗓️ **Event Listings** - Browse and filter events by category
-- 🎟️ **Event Registration** - Sign up for events with a single click.
+- 🎟️ **Event Registration** - Sign up for events with a single click
 - 📅 **Google Calendar Integration** - Add events to your calendar.
 - 🔐 **User Authentication** - Sign in with email & Google.
 - 🛠️ **Admin Dashboard** - Manage events and users efficiently.
