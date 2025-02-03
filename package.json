@@ -8,7 +8,7 @@
   "start": "next start",
   "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --rule 'prettier/prettier: off'",
   "seed": "npx tsx prisma/seed.ts",
-  "postinstall": "prisma generate"
+  "postinstall": "npx prisma generate"
  },
  "prisma": {
   "seed": "npm run seed"
