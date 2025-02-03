@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react'
-import { Metadata } from 'next';
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -47,7 +46,6 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
-      {/* User Info */}
       <div className="flex items-center gap-4 mb-6">
         {session?.user?.image ? (
           <Image

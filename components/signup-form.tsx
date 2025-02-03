@@ -16,7 +16,7 @@ const initialState: SignUpActionState = {
 };
 
 export default function SignUpForm() {
-  const [state, formAction, isPending] = useActionState<SignUpActionState, FormData>( // ✅ FIXED HERE
+  const [state, formAction, isPending] = useActionState<SignUpActionState, FormData>(
     signupAction,
     initialState
   );
@@ -29,20 +29,14 @@ export default function SignUpForm() {
 
   useEffect(() => {
     if (state.redirectPath && state.success) {
-      setShowSuccess(true); // Show success feedback
+      setShowSuccess(true); 
       setTimeout(() => {
-        router.push(state.redirectPath || '/'); // Redirect after showing feedback
+        router.push(state.redirectPath || '/');
       }, 2000);
     }
   }, [state.redirectPath, state.success, router]);
 
 
-  
-
-  //   if (state?.redirectPath) {
-  //     router.push(state.redirectPath); // ✅ Now TypeScript understands redirectPath exists
-    
-  // };
 
   return (
     <form action={formAction} className="space-y-4">

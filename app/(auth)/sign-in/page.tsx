@@ -1,6 +1,6 @@
 'use client';
 
-import { Metadata } from 'next';
+
 import React, { useState } from 'react'
 import { signIn } from "next-auth/react";
 import Link from "next/link";

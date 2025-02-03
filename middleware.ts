@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(signInUrl);
   }
 
-  // 🚀 Restrict `/dashboard` to Admins Only
+  // Restrict `/dashboard` to Admins Only
   if (pathname.startsWith("/dashboard")) {
     if (!token || token.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", req.url)); // Redirect non-admins home
@@ -48,7 +48,7 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     // Protected routes
-    "/dashboard/:path*", // ✅ Now only Admins can access `/dashboard`
+    "/dashboard/:path*", 
     "/profile/:path*",
     "/events/:path*/signup",
     // Auth routes

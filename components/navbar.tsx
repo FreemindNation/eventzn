@@ -67,7 +67,7 @@ export const Navbar = () => {
       <NavbarContent className="hidden lg:flex basis-1/3" justify="end">
         <ThemeSwitch />
         {session?.user ? (
-          // Show Sign Out Button if user is logged in
+         
           <Button
             className="bg-primary-500 text-white font-semibold rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-400 px-4 py-2"
             color="danger"
@@ -77,7 +77,7 @@ export const Navbar = () => {
             Sign Out
           </Button>
         ) : (
-          // Show Sign In and Sign Up Buttons if user is not logged in
+        
           <>
             <Button as={NextLink} color="primary" href="/sign-in" variant="flat">
               Sign In

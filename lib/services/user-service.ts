@@ -24,3 +24,37 @@ export async function getUserRegistrations(userId: string) {
     throw new Error("Failed to fetch user events.");
   }
 }
+
+
+
+export async function getUsers() {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        createdAt: true,
+        _count: {
+          select: { registrations: true },
+        },
+      },
+      orderBy: { createdAt: "desc" }, 
+    });
+     
+    
+    return users.map(user => ({
+      id: user.id,
+      name: user.name || "Unnamed",
+      email: user.email,
+      image: user.image || "",
+      registeredEvents: user._count.registrations,
+      createdAt: user.createdAt.toISOString(),
+    }));
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    return [];
+  }
+}
+

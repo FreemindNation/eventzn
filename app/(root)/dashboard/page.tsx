@@ -17,6 +17,7 @@ import EventsTable from "@/components/events-table";
 import EventSearchFilter from "@/components/event-search-filter";
 import { fetchFilteredEvents } from "@/lib/data";
 import PaginationControls from "@/components/pagination";
+import UsersTable from "@/components/users-table";
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
@@ -118,7 +119,7 @@ export default function DashboardPage() {
               {loading ? <p>Loading events...</p> : <EventsTable events={events} />}
             </>
           ) : (
-            <p className="text-gray-600">Here you will manage all users (coming soon).</p>
+            <UsersTable />
           )}
         </CardBody>
       </Card>

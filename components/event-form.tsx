@@ -50,12 +50,12 @@ export default function CreateEventForm() {
 
           <Textarea label="Description" name="description" onKeyDown={() => {}}  />
 
-          <DatePicker isRequired label="Start Time" name="startTime" granularity="minute" />
+          <DatePicker isRequired granularity="minute" label="Start Time" name="startTime" />
           {state.validationErrors?.startTime && (
             <p className="text-red-500 text-sm">{state.validationErrors.startTime[0]}</p>
           )}
 
-          <DatePicker isRequired label="End Time" name="endTime" granularity="minute" />
+          <DatePicker isRequired granularity="minute" label="End Time" name="endTime" />
           {state.validationErrors?.endTime && (
             <p className="text-red-500 text-sm">{state.validationErrors.endTime[0]}</p>
           )}

@@ -107,7 +107,6 @@ export default function SignUpEventPage() {
             </Button>
           )}
 
-          {/* ✅ Success Modal with "Add to Calendar" */}
           {success && (
             <Modal isOpen={success} size="3xl" onClose={() => setSuccess(false)}>
               <ModalContent>

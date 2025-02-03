@@ -22,7 +22,7 @@ export  async function signupAction(
     const validatedFields = SignUpSchema.safeParse({ name, email, password });
   
     if (!validatedFields.success) {
-      // Return validation errors
+      
       return {
         name,
         email,
@@ -32,7 +32,7 @@ export  async function signupAction(
     }
   
     try {
-      // Check if the user already exists
+      
       const existingUser = await prisma.user.findUnique({ where: { email } });
 
       if (existingUser) {
@@ -52,15 +52,12 @@ export  async function signupAction(
           name,
           email,
           password: hashedPassword,
-          role: "USER", // Assign a default role
+          role: "USER", 
         },
       });
 
       return { redirectPath: redirectPath || "/", success: true};
       
-      // Return success state
-    //   return { name, email, password };
-
     } catch (err) {
       console.error("Sign-up error:", err);
 

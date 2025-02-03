@@ -1,10 +1,7 @@
 'use client';
 
 import React from 'react'
-import { Metadata } from 'next';
-import { Card, CardHeader, CardBody } from "@heroui/card";
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 
 import SignUpForm from "@/components/signup-form";
@@ -16,7 +13,7 @@ import SignUpForm from "@/components/signup-form";
 
 
 export default function SignUpPage() {
-  // const router = useRouter();
+  
 
   const handleGoogleSignUp = () => {
     signIn("google", { callbackUrl: "/" }); // Redirect after Google sign-up

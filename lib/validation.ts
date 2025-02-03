@@ -21,28 +21,6 @@ export const SignInSchema = z.object({
   
 
 
-// export const EventSchema = z.object({
-//   title: z.string().min(3, "Title must be at least 3 characters"),
-//   description: z.string().optional(),
-//   startTime: z.string().refine((val) => !isNaN(Date.parse(val)), {
-//     message: "Invalid date format",
-//   }),
-//   endTime: z.string().refine((val) => !isNaN(Date.parse(val)), {
-//     message: "Invalid date format",
-//   }),
-//   location: z.string().min(3, "Location must be at least 3 characters"),
-//   category: z.string().min(1, "Category is required"),
-//   imageUrl: z.string().url("Invalid image URL").optional(),
-//   isFree: z.boolean(),
-//   ticketPrice: z
-//   .number()
-//   .min(1, "Ticket price must be at least £1")
-//   .optional()
-//   .transform((val) => val ?? 0), // Ensures undefined values become 0
-//   createdBy: z.string().min(1, "Created by user is required"),
-// });
-
-
 export const EventSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().optional(),
@@ -55,17 +33,17 @@ export const EventSchema = z.object({
   location: z.string().min(3, "Location must be at least 3 characters"),
   category: z.string().min(1, "Category is required"),
   imageUrl: z.string().url("Invalid image URL").or(z.literal("")).optional(),
-  isFree: z.coerce.boolean(), // ✅ Convert from string "true"/"false" to boolean
+  isFree: z.coerce.boolean(), 
   ticketPrice: z
     .preprocess(
-      (val) => (val === "" || val === undefined ? 0 : Number(val)), // ✅ Convert empty string to 0
+      (val) => (val === "" || val === undefined ? 0 : Number(val)), 
       z.number()
     )
     .optional(),
   createdBy: z.string().min(1, "Created by user is required"),
 }).refine(
   (data) => {
-    // ✅ If event is not free, ticketPrice must be greater than 0
+    
     if (!data.isFree && (!data.ticketPrice || data.ticketPrice <= 0)) {
       return false;
     }
@@ -74,6 +52,6 @@ export const EventSchema = z.object({
   },
   {
     message: "If event is not free, ticket price must be greater than £0",
-    path: ["ticketPrice"], // ✅ Attach error message to `ticketPrice` field
+    path: ["ticketPrice"], 
   }
 );

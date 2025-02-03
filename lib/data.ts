@@ -2,23 +2,25 @@
 
 export async function fetchFilteredEvents(query = "", category = "", page = 1) {
   try {
-    // ✅ Construct the API URL dynamically
+    
     const url = new URL("/api/events", window.location.origin);
-    url.searchParams.set("page", page.toString()); // ✅ Ensure page is always set
 
-    if (query) url.searchParams.set("query", query); // ✅ Add search query if present
-    if (category && category !== "All") url.searchParams.set("category", category); // ✅ Add category filter
+    url.searchParams.set("page", page.toString()); 
 
-    // ✅ Fetch filtered events from API
+    if (query) url.searchParams.set("query", query); 
+    if (category && category !== "All") url.searchParams.set("category", category); 
+
+    
     const res = await fetch(url.toString());
 
     if (!res.ok) {
       throw new Error(`Failed to fetch events: ${res.statusText}`);
     }
 
-    return await res.json(); // ✅ Return JSON response
+    return await res.json(); 
   } catch (error) {
     console.error("Error fetching filtered events:", error);
+
     return { events: [], totalEvents: 0, error: "Failed to fetch events." };
   }
 }

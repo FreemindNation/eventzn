@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
     const eventData = Object.fromEntries(formData) as Record<string, string>;
 
-    // Convert fields properly
+    
     const parsedEvent = {
       ...eventData,
       isFree: eventData.isFree === "true",

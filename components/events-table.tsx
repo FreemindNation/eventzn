@@ -17,8 +17,10 @@ import {
   TrashIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
-import { formatPrice } from "@/lib/utils";
 import { Link } from "@heroui/link";
+
+import { formatPrice } from "@/lib/utils";
+
 
 const columns = [
   { name: "Image", uid: "image" },

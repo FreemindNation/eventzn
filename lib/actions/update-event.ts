@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { updateEvent } from "@/lib/services/event-service";
 import { EventSchema } from "@/lib/validation";
-import { EventData, EventFormState } from "@/types";
+import { EventFormState } from "@/types";
 
 export async function updateEventAction(
   eventId: string,
@@ -39,9 +39,9 @@ export async function updateEventAction(
       createdBy: formData.get("createdBy") as string,
     };
 
-    console.log("✅ Processed Data Before Validation:", rawData);
+  
 
-    // ✅ Validate data using Zod
+   
     const validatedData = EventSchema.safeParse(rawData);
 
     if (!validatedData.success) {
@@ -51,13 +51,11 @@ export async function updateEventAction(
       };
     }
 
-    console.log("✅ Data Passed Validation:", validatedData.data);
 
-
-    // ✅ Update event in database
+    
     await updateEvent(eventId, validatedData.data);
 
-    // ✅ Revalidate cache and redirect
+    
     revalidatePath("/dashboard");
 
     return { error: "", validationErrors: {}, success: true };
