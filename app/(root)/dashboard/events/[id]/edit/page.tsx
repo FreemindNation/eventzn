@@ -6,9 +6,9 @@ import UpdateEventForm from "@/components/update-event-form";
 import { getEvent } from "@/lib/services/event-service"; 
 
 
-export default async function EditEventPage(props: { params : { id: string }}) {
+export default async function EditEventPage(props: { params : Promise<{ id: string }>}) {
   const params = await props.params;
-  const { id } = await params;
+  const  id  = await params.id;
 
   const event = await getEvent(id)
 
@@ -16,16 +16,12 @@ export default async function EditEventPage(props: { params : { id: string }}) {
     return notFound();
   }
   
-  
-  console.log(event, '<-- event');
-  
-  
  
 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Edit Event</h1>
-      <UpdateEventForm eventData={event} /> {/* ✅ Pass event data to the form */}
+      <UpdateEventForm eventData={event} /> 
     </div>
   );
 }

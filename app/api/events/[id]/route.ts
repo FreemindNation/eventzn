@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { getEvent, updateEvent } from "@/lib/services/event-service";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   
@@ -22,10 +22,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const id = (await params).id;
     const body = await req.json();
-    const updatedEvent = await updateEvent(params.id, body);
+    const updatedEvent = await updateEvent(id, body);
 
     return NextResponse.json(updatedEvent);
   } catch (error) {

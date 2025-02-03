@@ -7,7 +7,7 @@ import { formatDate } from "@/lib/utils"
 import { fetchEvent } from "@/lib/data";
 
 
-export default async function EventPage(props: { params: { id: string } }) {
+export default async function EventPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const { id }  = params;
   const event = await fetchEvent(id);
