@@ -34,7 +34,7 @@ Ensure you have the following installed:
 - Node.js (v18+)
 - PostgreSQL (for database)
 - Git
-- A `.env` file with required environment variables
+- A `.env` file with required environment variables.
 
 ### Setup Instructions
 
