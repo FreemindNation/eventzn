@@ -73,7 +73,7 @@ Ensure you have the following installed:
 ## Tech Stack
 
  - **Frontend** - Next.js 15, Tailwind CSS, HeroUI.
- - **Backend** - Next.js API Routes, Prisma, PostgreSQL.
+ - **Backend** - Next.js API Routes, Prisma, PostgreSQL
  - **Authentication** - NextAuth.js (Google & Credentials).
  - **Deployment** - Vercel.
 
