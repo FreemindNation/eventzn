@@ -6,7 +6,8 @@ export async function GET(request: Request) {
 
   try {
     const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get("page") || "1", 10);
+    const pageStr = searchParams.get("page");
+    const page = pageStr && !isNaN(parseInt(pageStr, 10)) ? parseInt(pageStr, 10) : 1;    
     const perPage = 6;
     const query = searchParams.get("query") || "";
     const category = searchParams.get("category") || "";
@@ -23,7 +24,7 @@ export async function GET(request: Request) {
     return NextResponse.json(result);
   } catch (error) {
     console.error("Detailed error fetching events:", error);
-    
+
     return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 });
   }
 }

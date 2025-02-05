@@ -1,7 +1,10 @@
 
 
+import { Prisma } from "@prisma/client";
+
 import prisma from "@/lib/prisma";
 import { EventData, FormattedEvent } from "@/types";
+
 
 
 
@@ -16,6 +19,12 @@ export async function getFilteredEvents(
   query: string = "",
   category: string = ""
 ): Promise<PaginatedEvents> {
+
+  const whereClause: Prisma.EventWhereInput = {
+    ...(query ? { title: { contains: query, mode: "insensitive" } } : {}),
+    ...(category ? { category } : {}),
+  };
+
   const skip = (page - 1) * perPage;
 
   try {
@@ -29,7 +38,7 @@ export async function getFilteredEvents(
     }
 
     const events = await prisma.event.findMany({
-      where,
+      where: whereClause,
       skip,
       take: perPage,
       include: {

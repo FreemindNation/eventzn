@@ -56,6 +56,15 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
+
+      console.log("Session callback token:", token);
+
+      if (!token || !token.id) {
+        console.error("Token is missing in session callback. Returning default session.");
+        
+        return session; // or optionally, return a default session object
+      }
+
       session.user = {
         id: token.id as string,
         email: token.email as string,
