@@ -71,7 +71,8 @@ export async function getFilteredEvents(
   } catch (error) {
     console.error("Error in getFilteredEvents service:", error);
     
-    return { events: [], totalEvents: 0 };
+    return { events: [],
+    totalEvents: 0,};
   }
 }
 

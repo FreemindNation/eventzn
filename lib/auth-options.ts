@@ -29,13 +29,16 @@ export const authOptions: AuthOptions = {
           throw new Error("Email and password are required.");
         }
         const user = await prisma.user.findUnique({ where: { email: credentials.email } });
+
         if (!user || !user.password) {
           throw new Error("Invalid email or password.");
         }
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
+
         if (!isValidPassword) {
           throw new Error("Incorrect password.");
         }
+
         return { id: user.id, email: user.email, name: user.name ?? "Unknown User", role: user.role };
       },
     }),
@@ -53,16 +56,15 @@ export const authOptions: AuthOptions = {
         token.name = user.name;
         token.role = user.role;
       }
+      
       return token;
     },
     async session({ session, token }) {
 
-      console.log("Session callback token:", token);
-
       if (!token || !token.id) {
         console.error("Token is missing in session callback. Returning default session.");
         
-        return session; // or optionally, return a default session object
+        return session; 
       }
 
       session.user = {
@@ -71,6 +73,7 @@ export const authOptions: AuthOptions = {
         name: token.name as string,
         role: token.role as string,
       };
+
       return session;
     },
     async redirect({ url, baseUrl }) {
