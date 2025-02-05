@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@heroui/button";
 
-import { formatDate } from "@/lib/utils"
+import { formatDate, formatPrice } from "@/lib/utils"
 import { fetchEvent } from "@/lib/data";
 
 
@@ -57,7 +57,7 @@ export default async function EventPage(props: { params: Promise<{ id: string }>
         <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg p-6 space-y-6">
           <div>
             <h4 className="text-2xl font-bold text-gray-800">
-              {event.isFree ? "Free" : event.ticketPrice || 0}
+              {event.isFree ? "Free" : formatPrice(event.ticketPrice) || 0}
             </h4>
           </div>
           <Button as={Link} className="w-full bg-blue-500 text-white text-lg font-medium py-2 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400" href={`/events/${id}/signup`}>

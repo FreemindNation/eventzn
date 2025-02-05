@@ -1,7 +1,6 @@
 
 
 import prisma from "@/lib/prisma";
-// import { formatDate, truncateDescription, formatPrice } from "@/lib/utils";
 import { EventData, FormattedEvent } from "@/types";
 
 
