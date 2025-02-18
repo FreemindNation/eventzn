@@ -1,10 +1,24 @@
 # Eventzn - Event Management Platform
 
+## Table of Contents
+- [Live Project](#live-project)
+- [Project Summary](#project-summary)
+- [Features](#features)
+- [Test Account Access](#test-account-access)
+- [Running the Project locally](#running-the-project-locally)
+- [Tech Stack](#tech-stack)
+- [Future Improvement](#future-improvement)
+
+
+## Live Project
+👉 [Visit the Live Project Here](https://eventzn.vercel.app)
+
+
 ## 📌 Project Summary
 
 Eventzn is a modern event management platform that allows users to explore, register, and manage events seamlessly. The platform provides an intuitive interface for users to browse events, book tickets, and manage their profile, while administrators can create, update, and delete events.
 
-### ✨ Features
+## ✨ Features
 
 - 🗓️ **Event Listings** - Browse and filter events by category
 - 🎟️ **Event Registration** - Sign up for events with a single click
