@@ -19,7 +19,7 @@ export async function fetchFilteredEvents(query = "", category = "", page = 1) {
 
     return await res.json(); 
   } catch (error) {
-    // console.error("Error fetching filtered events:", error);
+    console.error("Error fetching filtered events:", error);
 
     return { events: [], totalEvents: 0, error: "Failed to fetch events." };
   }
