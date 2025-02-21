@@ -16,10 +16,10 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ totalPages }) =
 
   const handlePageChange = (page: number) => {
     
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(searchParams);
     
     params.set("page", page.toString());
-    router.push(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
 
   return (

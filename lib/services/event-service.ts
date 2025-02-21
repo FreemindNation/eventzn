@@ -92,7 +92,6 @@ export async function getEvent(id: string): Promise<FormattedEvent | null> {
     return null; 
   }
   
-  
   return {
     id: event.id,
     title: event.title,

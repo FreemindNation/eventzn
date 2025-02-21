@@ -11,18 +11,21 @@ import { SignInState } from "@/types";
 const initialState = {
   error: null,
   submitted: false,
-  user: undefined, 
+  user: undefined,
 };
 
 export default function SignInForm() {
-  const [state, action, isPending] = useActionState<SignInState, FormData>(authenticateAction, initialState);
+  const [state, action, isPending] = useActionState<SignInState, FormData>(
+    authenticateAction,
+    initialState
+  );
   const router = useRouter();
 
   useEffect(() => {
     if (state.submitted && state.user) {
       signIn("credentials", {
         email: state.user.email,
-        password: state.user.password, 
+        password: state.user.password,
         redirect: false,
       }).then((response) => {
         if (response?.error) {
@@ -58,7 +61,8 @@ export default function SignInForm() {
             type="password"
           />
         </div>
-        <button 
+        {state.error && <p className="text-red-500 mt-2">{state.error}</p>}
+        <button
           className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
           disabled={isPending}
           type="submit"
@@ -66,9 +70,6 @@ export default function SignInForm() {
           {isPending ? "Signing in..." : "Sign in"}
         </button>
       </div>
-      {state.error && (
-        <p className="text-red-500 mt-2">{state.error}</p>
-      )}
     </form>
   );
 }

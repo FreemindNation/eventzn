@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import { Link } from "@heroui/link";
 
 import { fetchEvent } from "@/lib/data";
-import { formatDate } from "@/lib/utils";
+import { capitaliseFirstWord, formatDate, formatPrice } from "@/lib/utils";
 
 export default function SignUpEventPage() {
   const { data: session } = useSession();
@@ -40,6 +40,7 @@ export default function SignUpEventPage() {
   const handleBookTicket = async () => {
     if (!session?.user) {
       router.push("/sign-in");
+
       return;
     }
 
@@ -85,20 +86,20 @@ export default function SignUpEventPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-900 shadow-md  mt-40 rounded-lg">
       {error && <p className="text-red-500">{error}</p>}
 
       {!event ? (
         <p>Loading event details...</p>
       ) : (
         <>
-          <h1 className="text-2xl font-bold mb-4">{event.title}</h1>
-          <p className="text-gray-700">{event.description}</p>
+          <h1 className="text-2xl font-bold mb-4">{capitaliseFirstWord(event.title)}</h1>
+          <p className="text-gray-500">{event.description}</p>
           <p className="mt-2 font-semibold">Date & Time: {formatDate(event.startTime)} - {formatDate(event.endTime)}</p>
           <p className="mt-1">Location: {event.location}</p>
           <p className="mt-1">Category: {event.category}</p>
           <p className="mt-1 font-semibold">
-            {event.isFree ? "Free Event" : `Ticket Price: £${event.ticketPrice}`}
+            {event.isFree ? "Free Event" : `Ticket Price: ${formatPrice(event.ticketPrice)}`}
           </p>
 
           {!success && (

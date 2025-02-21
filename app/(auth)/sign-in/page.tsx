@@ -4,6 +4,7 @@
 import React, { useState } from 'react'
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import Image from 'next/image';
 
 import SignInForm from "@/components/signin-form";
 
@@ -26,7 +27,14 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-lg p-6 rounded">
-        <h1 className="text-2xl font-semibold text-center mb-4">
+      <Image
+        alt="Eventzn Logo"
+        className="mb-8"
+        height={50}
+        src="/assets/images/logo.png"
+        width={150} 
+      />
+        <h1 className="text-2xl font-semibold text-left mb-4">
           Sign In to Eventzn
         </h1>
         <SignInForm />

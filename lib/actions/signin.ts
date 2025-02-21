@@ -30,14 +30,14 @@ export async function authenticateAction(
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user || !user.password) {
-      return { error: "Invalid email or password", submitted: false };
+      return { error: "The email and/or password you entered is incorrect.", submitted: false };
     }
 
     // Validate the password
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-      return { error: "Invalid email or password", submitted: false };
+      return { error: "The email and/or password you entered is incorrect.", submitted: false };
     }
     
 

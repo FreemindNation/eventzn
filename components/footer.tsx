@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 
 export const Footer = () => {
   return (
-    <footer className="w-full flex items-center justify-between py-3 px-6 bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+    <footer className="w-full flex items-center justify-between py-6 mt-8 px-6 bg-transparent dark:bg-transparent border-t border-gray-400 dark:border-gray-700">
       <div className="flex items-center">
         <Image
           alt="logo image"

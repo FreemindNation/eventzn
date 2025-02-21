@@ -45,9 +45,9 @@ Eventzn is a modern event management platform that allows users to explore, regi
 To test the platform, use the following user credentials:
 
 - **Test User**
-  - Name: Test User3
-  - Email: `testuser3@eventzn.dev`
-  - Password: `testuser.3`
+  - Name: Test User4
+  - Email: `testuser4@eventzn.dev`
+  - Password: `testuser.4`
 
 > 🚨 **Note:** Admin credentials are not publicly shared for security reasons.
 
@@ -112,7 +112,44 @@ Eventzn provides a set of RESTful API endpoints to manage events and user authen
     - `category`(optional) - Filters events by category.
     - `search`(optional) - Searches events by title or description.
 
-- **Response:** Returns an array of event objects with relevant details.
+- **Example Response:** 
+    ```json
+    {
+        "events": [
+            {
+                "id": "event123",
+                "title": "Tech Conference 2025",
+                "description": "A deep dive into the future of technology.",
+                "startTime": "2025-03-12T09:00:00.000Z",
+                "endTime": "2025-03-12T17:00:00.000Z",
+                "location": "London, UK",
+                "category": "Technology",
+                "imageUrl": "https://example.com/event.jpg",
+                "isFree": false,
+                "ticketPrice": 49.99,
+                "createdAt": "2025-02-01T12:00:00.000Z",
+                "createdBy": "admin123",
+                "registerations": 50
+            },
+            {
+                "id": "event456",
+                "title": "Music Festival",
+                "description": "Live performances from top artists.",
+                "startTime": "2025-06-15T15:00:00.000Z",
+                "endTime": "2025-06-16T23:00:00.000Z",
+                "location": "Manchester, UK",
+                "category": "Music",
+                "imageUrl": "https://example.com/music-festival.jpg",
+                "isFree": true,
+                "ticketPrice": 0,
+                "createdAt": "2025-01-20T10:30:00.000Z",
+                "createdBy": "admin456",
+                "registerations": 200
+            }
+        ],
+        "totalEvents": 2
+        
+    }
 
 ### Get an Event by ID
 
@@ -123,7 +160,22 @@ Eventzn provides a set of RESTful API endpoints to manage events and user authen
 - **Path Parameters:**
     - `eventId` - The unique identifier of the event.
 
-- **Response:** Returns a single event object with full details.
+- **Example Response:** 
+    ```json
+    {
+        "id": "event123",
+        "title": "Tech Conference 2025",
+        "description": "A deep dive into the future of technology.",
+        "startTime": "2025-03-12T09:00:00.000Z",
+        "endTime": "2025-03-12T17:00:00.000Z",
+        "location": "London, UK",
+        "category": "Technology",
+        "imageUrl": "https://example.com/event.jpg",
+        "isFree": false,
+        "ticketPrice": 49.99,
+        "createdAt": "2025-02-01T12:00:00.000Z",
+        "createdBy": "Admin User",   
+    }
 
 ### Create an Event
 
@@ -145,7 +197,22 @@ Eventzn provides a set of RESTful API endpoints to manage events and user authen
 
 - **Authorisation:** Requires an admin user role.
 
-- **Response:** Returns the created event object.
+- **Example Response:** 
+    ```json
+    {
+        "id": "event123",
+        "title": "Tech Conference 2025",
+        "description": "A deep dive into the future of technology.",
+        "startTime": "2025-03-12T09:00:00.000Z",
+        "endTime": "2025-03-12T17:00:00.000Z",
+        "location": "London, UK",
+        "category": "Technology",
+        "imageUrl": "https://example.com/event.jpg",
+        "isFree": false,
+        "ticketPrice": 49.99,
+        "createdAt": "2025-02-01T12:00:00.000Z",
+        "createdBy": "Admin User",   
+    }
 
 ### Update an Event
 
@@ -160,7 +227,22 @@ Eventzn provides a set of RESTful API endpoints to manage events and user authen
 
 - **Authentication:** Requires an admin user role.
 
-- **Response:** Returns the updated event object.
+- **Example Response:** 
+    ```json
+    {
+        "id": "event123",
+        "title": "Tech Conference 2025",
+        "description": "A deep dive into the future of technology.",
+        "startTime": "2025-03-12T09:00:00.000Z",
+        "endTime": "2025-03-12T17:00:00.000Z",
+        "location": "London, UK",
+        "category": "Technology",
+        "imageUrl": "https://example.com/event.jpg",
+        "isFree": false,
+        "ticketPrice": 49.99,
+        "createdAt": "2025-02-01T12:00:00.000Z",
+        "createdBy": "Admin User",   
+    }
 
 ### Delete an Event
 
@@ -181,7 +263,27 @@ Eventzn provides a set of RESTful API endpoints to manage events and user authen
 
 - **Description:** Retrieves a list of all users.
 
-- **Response:** Returns an array of user objects with relevant details.
+- **Example Response:** 
+    ```json
+    [
+        {
+            "id": "user123",
+            "name": "John Doe",
+            "email": "johndoe@example.com",
+            "image": "https://example.com/johndoe.jpg",
+            "registeredEvents": 3,
+            "createdAt": "2025-01-05T10:00:00.000Z"
+        },
+        {
+            "id": "user456",
+            "name": "Jane Smith",
+            "email": "janesmith@example.com",
+            "image": "",
+            "registeredEvents": 5,
+            "createdAt": "2025-02-01T15:30:00.000Z"
+        }
+    ]
+
 
 ### Get Current User Registrations
 

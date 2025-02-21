@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { Button } from "@heroui/button";
 import { UserIcon } from "@heroicons/react/24/outline"
+import { capitaliseFirstWord } from '@/lib/utils';
 
 
 
@@ -45,7 +46,8 @@ export default function ProfilePage() {
   if (status === "loading") return <p>Loading profile...</p>;
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="max-w-3xl mx-auto p-6 dark:bg-transparent shadow-md rounded-lg">
+      <h1 className="text-2xl font-bold mb-4">Your Account Details</h1>
       <div className="flex items-center gap-4 mb-6">
         {session?.user?.image ? (
           <Image
@@ -61,11 +63,11 @@ export default function ProfilePage() {
           </div>
         )}
         <div>
-          <h1 className="text-2xl font-bold">{session?.user?.name || "User"}</h1>
+          <p className="text-xl font-bold">{session?.user?.name || "User"}</p>
           <p className="text-gray-600">{session?.user?.email}</p>
         </div>
       </div>
-      <h2 className="text-xl font-semibold mb-4">Your Events</h2>
+      <h2 className="text-2xl font-bold mb-4">Your Events</h2>
       {loading ? (
         <p>Loading events...</p>
       ) : events.length === 0 ? (
@@ -73,7 +75,7 @@ export default function ProfilePage() {
       ) : (
         <div className="space-y-4">
           {events.map((event) => (
-            <div key={event.id} className="p-4 border rounded-lg flex items-center gap-4">
+            <div key={event.id} className="p-4 shadow-lg rounded-lg bg-white dark:bg-gray-900 transition-all duration-300 border border-transparent hover:border-purple-500 hover:shadow-purple-500/50 flex items-center gap-4">
               {event.imageUrl && (
                 <Image
                   alt={event.title}
@@ -84,7 +86,7 @@ export default function ProfilePage() {
                 />
               )}
               <div>
-                <h3 className="font-semibold">{event.title}</h3>
+                <h3 className="font-semibold">{capitaliseFirstWord(event.title)}</h3>
                 <p className="text-sm text-gray-500">
                   {event.startTime} - {event.endTime}
                 </p>

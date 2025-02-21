@@ -51,7 +51,7 @@ export const Navbar = () => {
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(
-                  "text-lg font-medium hover:text-primary transition-colors",
+                  "text-lg font-medium hover:text-primary hover:underline transition-colors",
                   pathname === item.href && "text-primary font-semibold"
                 )}
                 href={item.href}
@@ -69,8 +69,8 @@ export const Navbar = () => {
         {session?.user ? (
          
           <Button
-            className="bg-primary-500 text-white font-semibold rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-400 px-4 py-2"
-            color="danger"
+            className="bg-purple-700 text-white dark:text-white font-semibold rounded-md hover:underline focus:outline-none focus:ring-2  px-4 py-2"
+            // color="danger"
             variant="flat"
             onPress={() => signOut()}
           >
@@ -104,8 +104,8 @@ export const Navbar = () => {
             <NavbarMenuItem>
               {/* Sign Out Button for Mobile */}
               <Button
-                className="bg-primary-500 text-white font-semibold rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-400 px-4 py-2"
-                color="danger"
+                className="bg-purple-700 text-white dark:text-white font-semibold rounded-md hover:underline focus:outline-none focus:ring-2  px-4 py-2"
+                // color="danger"
                 variant="flat"
                 onPress={() => signOut()}
               >
@@ -132,7 +132,7 @@ export const Navbar = () => {
             <NavbarMenuItem key={item.href}>
               <NextLink
                 className={clsx(
-                  "text-lg font-medium hover:text-primary transition-colors",
+                  "text-lg font-medium hover:text-primary hover:underline transition-colors",
                   pathname === item.href && "text-primary font-semibold"
                 )}
                 href={item.href}

@@ -19,7 +19,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "@heroui/link";
 
-import { formatPrice } from "@/lib/utils";
+import { capitaliseFirstWord, formatPrice } from "@/lib/utils";
 
 
 const columns = [
@@ -56,7 +56,7 @@ export default function EventsTable({ events }: { events: any[] }) {
                 <span className="text-gray-500">No Image</span>
               )}
             </TableCell>
-            <TableCell className="font-medium">{event.title}</TableCell>
+            <TableCell className="font-medium">{capitaliseFirstWord(event.title)}</TableCell>
 
             <TableCell>
               {event.isFree ? "Free" : `${formatPrice(event.ticketPrice)}`}

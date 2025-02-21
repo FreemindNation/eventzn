@@ -18,7 +18,6 @@ export const formatDate = (dateString: Date): string => {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
-      timeZoneName: "short",
     };
   
     return date.toLocaleString("en-GB", options);
@@ -34,7 +33,7 @@ export const formatPrice = (price: number | null ): string | null => {
 
 export const truncateDescription = (
   description: string | null ,
-  maxLength: number = 100
+  maxLength: number = 20
 ): string | null => {
   if (!description) {
     return null;
@@ -44,3 +43,13 @@ export const truncateDescription = (
     ? description
     : `${description.slice(0, maxLength).trim()}...`;
 };
+
+export function capitaliseFirstWord(str: string): string {
+  if (!str) return "";
+  const words = str.split(" ");
+
+  words[0] = words[0][0].toUpperCase() + words[0].slice(1);
+
+  return words.join(" ");
+}
+

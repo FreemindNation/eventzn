@@ -8,9 +8,9 @@ import EventsPage from "@/components/event-list";
 export default async function HomePage() {
 
   return (
-    <div>
+    <div >
       {/* Hero Section */}
-      <section className="flex flex-col-reverse lg:flex-row items-center justify-between bg-gray-50 dark:bg-gray-800 px-8 py-16">
+      <section className="flex flex-col-reverse lg:flex-row items-center justify-between bg-transparent  px-8 py-16">
         <div className="max-w-lg text-center lg:text-left">
           <h1 className="text-4xl lg:text-5xl font-bold leading-tight text-gray-900 dark:text-white">
             Discover Amazing Events

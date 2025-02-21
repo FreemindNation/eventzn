@@ -2,8 +2,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@heroui/button";
+import {
+  CalendarIcon,
+  MapPinIcon,
+  CurrencyPoundIcon,
+} from "@heroicons/react/24/outline";
 
-import { formatDate, formatPrice } from "@/lib/utils"
+import { capitaliseFirstWord, formatDate, formatPrice } from "@/lib/utils"
 import { fetchEvent } from "@/lib/data";
 
 
@@ -24,11 +29,11 @@ export default async function EventPage(props: { params: Promise<{ id: string }>
   }
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-800 min-h-screen my-20">
-      <div className="w-full h-64 md:h-96 bg-gray-300 mb-8 ">
+    <div className="container mx-auto dark:bg-transparent min-h-screen my-20">
+      <div className="w-full h-64  md:h-96 mb-8 ">
         <Image
           alt={event.title}
-          className="w-full h-full object-cover"
+          className="w-full rounded h-full object-cover"
           height={920}
           src={event.imageUrl || "/placeholder.jpg"}
           width={450}
@@ -36,27 +41,33 @@ export default async function EventPage(props: { params: Promise<{ id: string }>
       </div>
       <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-6">
-          <h1 className="text-5xl font-bold text-gray-800 mb-6">{event.title}</h1>
-          <div className="text-gray-700">
+          <h1 className="text-5xl font-bold text-gray-800 dark:text-white mb-6">{capitaliseFirstWord(event.title)}</h1>
+          <div className="text-gray-700 dark:text-white ">
             <h2 className="text-lg font-bold mb-2">Date and Time</h2>
-            <p>{formatDate(event.startTime)} - {formatDate(event.endTime)}</p>
+            <div className="flex items-center gap-4">
+              <CalendarIcon className="w-8 h-8" />
+              <p>{formatDate(event.startTime)} - {formatDate(event.endTime)}</p>
+            </div>
           </div>
-          <div className="text-gray-700">
+          <div className="text-gray-700 dark:text-white ">
             <h2 className="text-lg font-bold mb-2">Location</h2>
-            <p>{event.location}</p>
+            <div className="flex items-center gap-4">
+              <MapPinIcon className="w-8 h-8" />
+              <p>{event.location}</p>
+            </div>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">About this event</h2>
-            <p className="text-gray-600">{event.description}</p>
+            <h2 className="text-lg font-bold text-gray-800 dark:text-white  mb-4">About this event</h2>
+            <p className="text-gray-600 dark:text-white ">{event.description}</p>
           </div>
           <div>
-            <h2 className="text-lg font-bold text-gray-800 mb-2">Organiser</h2>
-            <p className="text-gray-600">{event.createdBy || "Unknown"}</p>
+            <h2 className="text-lg font-bold text-gray-800 mb-2 dark:text-white ">Organiser</h2>
+            <p className="text-gray-600 dark:text-white ">{event.createdBy || "Unknown"}</p>
           </div>
         </div>
         <div className="bg-white dark:bg-gray-700 shadow-md rounded-lg p-6 space-y-6">
           <div>
-            <h4 className="text-2xl font-bold text-gray-800">
+            <h4 className="text-2xl font-bold text-gray-800 dark:text-white ">
               {event.isFree ? "Free" : formatPrice(event.ticketPrice) || 0}
             </h4>
           </div>

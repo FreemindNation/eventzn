@@ -16,27 +16,24 @@ const initialState: SignUpActionState = {
 };
 
 export default function SignUpForm() {
-  const [state, formAction, isPending] = useActionState<SignUpActionState, FormData>(
-    signupAction,
-    initialState
-  );
+  const [state, formAction, isPending] = useActionState<
+    SignUpActionState,
+    FormData
+  >(signupAction, initialState);
 
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || "/";
   const [showSuccess, setShowSuccess] = useState(false);
 
-
   useEffect(() => {
     if (state.redirectPath && state.success) {
-      setShowSuccess(true); 
+      setShowSuccess(true);
       setTimeout(() => {
-        router.push(state.redirectPath || '/');
+        router.push(state.redirectPath || "/");
       }, 2000);
     }
   }, [state.redirectPath, state.success, router]);
-
-
 
   return (
     <form action={formAction} className="space-y-4">
@@ -49,7 +46,7 @@ export default function SignUpForm() {
           type="text"
         />
         {state.errors?.name && (
-          <p className="text-red-500 text-sm">{state.errors.name[0]}</p>
+          <p className="text-red-500 text-sm mt-2">{state.errors.name[0]}</p>
         )}
       </div>
       <div>
@@ -61,7 +58,7 @@ export default function SignUpForm() {
           type="email"
         />
         {state.errors?.email && (
-          <p className="text-red-500 text-sm">{state.errors.email[0]}</p>
+          <p className="text-red-500 text-sm mt-2">{state.errors.email[0]}</p>
         )}
       </div>
       <div>
@@ -72,7 +69,11 @@ export default function SignUpForm() {
           type="password"
         />
         {state.errors?.password && (
-          <p className="text-red-500 text-sm">{state.errors.password[0]}</p>
+          <ul className="text-red-500 text-sm mt-2">
+            {state.errors.password.map((error, index) => (
+              <li key={index}>. {error}</li>
+            ))}
+          </ul>
         )}
       </div>
       <input name="redirect" type="hidden" value={redirectPath} />
@@ -86,7 +87,9 @@ export default function SignUpForm() {
       {state.errors?.general && (
         <p className="text-red-500 text-sm">{state.errors.general[0]}</p>
       )}
-      {state.success && showSuccess && <p className="text-green-500">Sign-up successful! Redirecting...</p>}
+      {state.success && showSuccess && (
+        <p className="text-green-500">Sign-up successful! Redirecting...</p>
+      )}
     </form>
   );
 }
