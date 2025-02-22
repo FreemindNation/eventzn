@@ -27,31 +27,40 @@ export async function getUserRegistrations(userId: string) {
 
 
 
-export async function getUsers() {
+export async function getUsers(page = 1, limit = 10) {
   try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        createdAt: true,
-        _count: {
-          select: { registrations: true },
+
+    const skip = (page - 1) * limit;
+
+    const [users, totalUsers] = await Promise.all([
+      prisma.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          createdAt: true,
+          _count: { select: { registrations: true } },
         },
-      },
-      orderBy: { createdAt: "desc" }, 
-    });
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.user.count(), 
+    ]);
      
     
-    return users.map(user => ({
-      id: user.id,
-      name: user.name || "Unnamed",
-      email: user.email,
-      image: user.image || "",
-      registeredEvents: user._count.registrations,
-      createdAt: user.createdAt.toISOString(),
-    }));
+    return {
+      users: users.map((user) => ({
+        id: user.id,
+        name: user.name || "Unnamed",
+        email: user.email,
+        image: user.image || "",
+        registeredEvents: user._count.registrations,
+        createdAt: user.createdAt.toISOString(),
+      })),
+      totalUsers,
+    };
   } catch (error) {
     console.error("Error fetching users:", error);
     return [];

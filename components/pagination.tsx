@@ -33,7 +33,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ totalPages }) =
       <div className="flex gap-2">
         <Button
           color="secondary"
-          disabled={currentPage === 1}
+          disabled={currentPage <= 1}
           size="sm"
           variant="light"
           onPress={() => handlePageChange(Math.max(1, currentPage - 1))}
@@ -42,9 +42,8 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ totalPages }) =
         </Button>
         <Button
           color="secondary"
-          disabled={currentPage === totalPages}
+          disabled={currentPage >= totalPages}
           size="sm"
-          variant="flat"
           onPress={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
         >
           Next

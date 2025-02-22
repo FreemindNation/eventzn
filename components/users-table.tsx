@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@heroui/table";
 import { Avatar } from "@heroui/avatar";
+import { useSearchParams } from "next/navigation";
+
+import PaginationControls from "./pagination";
 
 interface User {
   id: string;
@@ -15,12 +18,17 @@ interface User {
 
 export default function UsersTable() {
   const [users, setUsers] = useState<User[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams?.get("page") || "1", 10);
+  const limit = 6;
+
 
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const res = await fetch("/api/users");
+        const res = await fetch(`/api/users?page=${currentPage}&limit=${limit}`);
         
         if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
         
@@ -37,12 +45,13 @@ export default function UsersTable() {
           id: user.id,
           name: user.name || "Unknown",
           email: user.email || "No Email",
-          image: user.image || "/default-avatar.png",
+          image: user.image ,
           registeredEvents: user.registeredEvents || 0,
           createdAt: new Date(user.createdAt).toLocaleDateString(),
         }));
         
         setUsers(formattedUsers);
+        setTotalPages(Math.ceil(data.totalUsers / limit));
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -50,12 +59,12 @@ export default function UsersTable() {
       }
     }
     fetchUsers();
-  }, []);
+  }, [currentPage]);
 
   return (
     <div className="overflow-x-auto">
       <Table aria-label="Users Table">
-        <TableHeader>
+        <TableHeader className="">
           <TableColumn>User</TableColumn>
           <TableColumn>Email</TableColumn>
           <TableColumn>Events Signed Up</TableColumn>
@@ -82,7 +91,7 @@ export default function UsersTable() {
               <TableRow key={user.id}>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <Avatar src={user.image} name={user.name} />
+                    <Avatar showFallback name={user.name}  src={user.image} />
                     <span>{user.name}</span>
                   </div>
                 </TableCell>
@@ -94,6 +103,9 @@ export default function UsersTable() {
           )}
         </TableBody>
       </Table>
+      <div className="mt-6">
+        <PaginationControls totalPages={totalPages} />
+      </div>
     </div>
   );
 }
