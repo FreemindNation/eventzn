@@ -46,7 +46,22 @@ export const EventSchema = z.object({
     )
     .optional(),
   createdBy: z.string().min(1, "Created by user is required"),
-}).refine(
+})
+.refine(
+  (data) => new Date(data.startTime) >= new Date(), // Start time must be in the future
+  {
+    message: "Start time cannot be in the past",
+    path: ["startTime"],
+  }
+)
+.refine(
+  (data) => new Date(data.endTime) > new Date(data.startTime), // End time must be after start time
+  {
+    message: "End time must be after start time",
+    path: ["endTime"],
+  }
+)
+.refine(
   (data) => {
     
     if (!data.isFree && (!data.ticketPrice || data.ticketPrice <= 0)) {

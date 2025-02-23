@@ -5,12 +5,15 @@ import { Button } from "@heroui/button";
 import {
   CalendarIcon,
   MapPinIcon,
-  CurrencyPoundIcon,
 } from "@heroicons/react/24/outline";
+import { Metadata } from "next";
 
 import { capitaliseFirstWord, formatDate, formatPrice } from "@/lib/utils"
 import { fetchEvent } from "@/lib/data";
 
+export const metadata: Metadata = {
+  title: 'Events | Event Page',
+};
 
 export default async function EventPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

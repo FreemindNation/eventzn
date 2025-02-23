@@ -8,11 +8,6 @@ import  Image from "next/image"
 import SignUpForm from "@/components/signup-form";
 
 
-// export const metadata: Metadata = {
-//   title: 'Sign up',
-// };
-
-
 export default function SignUpPage() {
   
 
@@ -23,13 +18,15 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-lg p-6 rounded">
-      <Image
-        alt="Eventzn Logo"
-        className="mb-8"
-        height={50}
-        src="/assets/images/logo.png"
-        width={150} 
-      />
+      <Link href='/'>
+        <Image
+          alt="Eventzn Logo"
+          className="mb-8"
+          height={50}
+          src="/assets/images/logo.png"
+          width={150}
+        />
+      </Link>
         <h1 className="text-2xl font-semibold text-center mb-4">
           Create Your Account
         </h1>

@@ -1,9 +1,12 @@
-
-
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import UpdateEventForm from "@/components/update-event-form";
 import { getEvent } from "@/lib/services/event-service"; 
+
+export const metadata: Metadata = {
+  title: 'Dashboard | Events | Update Event',
+};
 
 
 export default async function EditEventPage(props: { params : Promise<{ id: string }>}) {

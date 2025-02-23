@@ -1,6 +1,5 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
 
 import { SignUpSchema } from "../validation";

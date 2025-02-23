@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { Button } from "@heroui/button";
 import { UserIcon } from "@heroicons/react/24/outline"
+
 import { capitaliseFirstWord } from '@/lib/utils';
 
 

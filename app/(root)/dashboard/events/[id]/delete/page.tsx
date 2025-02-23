@@ -1,8 +1,16 @@
 import { notFound } from "next/navigation";
-import { getEvent } from "@/lib/services/event-service";
 import { Button } from "@heroui/button";
 import Link from "next/link";
+import { Metadata } from "next";
+
+import { getEvent } from "@/lib/services/event-service";
 import { deleteEventAction } from "@/lib/actions/delete-event";
+
+
+export const metadata: Metadata = {
+  title: 'Dashboard | Events | Delete Event',
+};
+
 
 export default async function DeleteEventPage({ params }: { params: Promise<{ id: string }> }) {
   

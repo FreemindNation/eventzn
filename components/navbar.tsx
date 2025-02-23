@@ -23,7 +23,7 @@ export const Navbar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  // ✅ Filter "Dashboard" if user is not an Admin
+  //Filter "Dashboard" if user is not an Admin
   const filteredNavItems = siteConfig.navItems.filter(
     (item) => !(item.href === "/dashboard" && session?.user?.role !== "ADMIN")
   );
@@ -70,7 +70,6 @@ export const Navbar = () => {
          
           <Button
             className="bg-purple-700 text-white dark:text-white font-semibold rounded-md hover:underline focus:outline-none focus:ring-2  px-4 py-2"
-            // color="danger"
             variant="flat"
             onPress={() => signOut()}
           >

@@ -30,7 +30,7 @@ export async function CreateEventAction(prevState: EventFormState, formData: For
       console.error("Validation Errors:", validatedData.error.format());
 
       return {
-        error: "Validation failed.",
+        error: "Failed to create event.",
         validationErrors: validatedData.error.flatten().fieldErrors,
       };
     }

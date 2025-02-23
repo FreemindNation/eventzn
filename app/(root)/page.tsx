@@ -1,9 +1,12 @@
 import { Button } from "@heroui/button";
 import Image from "next/image";
+import { Metadata } from "next";
 
 import EventsPage from "@/components/event-list";
 
-
+export const metadata: Metadata = {
+  title: 'Home',
+};
 
 export default async function HomePage() {
 
