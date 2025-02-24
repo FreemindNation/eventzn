@@ -11,9 +11,7 @@ const nextConfig = {
     ],
   },
 
-  experimental: {
-    serverActions: false, 
-  },
+  experimental: {},
 
   async rewrites() {
     return [];
@@ -21,10 +19,6 @@ const nextConfig = {
 
   async headers() {
     return [];
-  },
-
-  logger: {
-    level: "debug", // Enables deeper logging
   },
 };
 
