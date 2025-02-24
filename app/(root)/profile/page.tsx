@@ -5,35 +5,39 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { Button } from "@heroui/button";
-import { UserIcon } from "@heroicons/react/24/outline"
+import { UserIcon, CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline"
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { capitaliseFirstWord } from '@/lib/utils';
+import PaginationControls from '@/components/pagination';
 
-
-
-// export const metadata: Metadata = {
-//   title: 'Profile',
-// };
 
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const limit = 5;
+  const currentPage = parseInt(searchParams?.get("page") || "1", 10);
 
   useEffect(() => {
     if (!session?.user) return;
 
     const fetchUserEvents = async () => {
       try {
-        const res = await fetch("/api/profile");
+        const res = await fetch(`/api/profile?page=${currentPage}&limit=${limit}`);
         const data = await res.json();
 
         if (!res.ok) {
           throw new Error(data.error || "Failed to load events.");
         }
 
-        setEvents(data);
+        setEvents(data.events);
+        setTotalPages(Math.ceil(data.totalEvents / limit));
       } catch (error) {
         console.error(error);
       } finally {
@@ -42,7 +46,7 @@ export default function ProfilePage() {
     };
 
     fetchUserEvents();
-  }, [session]);
+  }, [session, currentPage]);
 
   if (status === "loading") return <p>Loading profile...</p>;
 
@@ -76,22 +80,28 @@ export default function ProfilePage() {
       ) : (
         <div className="space-y-4">
           {events.map((event) => (
-            <div key={event.id} className="p-4 shadow-lg rounded-lg bg-white dark:bg-gray-900 transition-all duration-300 border border-transparent hover:border-purple-500 hover:shadow-purple-500/50 flex items-center gap-4">
+            <div key={event.id} className="flex-col sm:flex-row p-4 shadow-lg rounded-lg bg-white dark:bg-gray-900 transition-all duration-300 border border-transparent hover:border-purple-500 hover:shadow-purple-500/50 flex items-center gap-4">
               {event.imageUrl && (
                 <Image
                   alt={event.title}
-                  className="rounded-md"
+                  className="w-full sm:w-24 h-auto rounded-md"
                   height={80}
                   src={event.imageUrl}
                   width={80}
                 />
               )}
-              <div>
-                <h3 className="font-semibold">{capitaliseFirstWord(event.title)}</h3>
-                <p className="text-sm text-gray-500">
-                  {event.startTime} - {event.endTime}
-                </p>
-                <p className="text-sm">{event.location}</p>
+              <div className="flex-1 text-sm sm:text-base">
+                <h3 className="font-semibold mb-6">{capitaliseFirstWord(event.title)}</h3>
+                <div className='flex items-center gap-4 mb-6'>
+                  <CalendarIcon className='w-5 h-5' />
+                  <p className="text-sm text-gray-500">
+                    {event.startTime} - {event.endTime}
+                  </p>
+                </div>
+                <div className='flex items-center gap-4 mb-6'>
+                  <MapPinIcon className='w-5 h-5' />
+                  <p className="text-sm">{event.location}</p>
+                </div>
               </div>
               <Button
                 as="a"
@@ -105,6 +115,8 @@ export default function ProfilePage() {
           ))}
         </div>
       )}
+      <PaginationControls totalPages={totalPages} />
+
     </div>
   );
 }

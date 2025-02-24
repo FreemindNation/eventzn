@@ -33,16 +33,17 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({ totalPages }) =
       <div className="flex gap-2">
         <Button
           color="secondary"
-          disabled={currentPage <= 1}
+          disabled={currentPage === 1}
           size="sm"
           variant="light"
           onPress={() => handlePageChange(Math.max(1, currentPage - 1))}
         >
           Previous
         </Button>
+        <span className="px-4 py-2 text-small text-gray-500">{`Page ${currentPage} of ${totalPages}`}</span>
         <Button
           color="secondary"
-          disabled={currentPage >= totalPages}
+          disabled={currentPage === totalPages}
           size="sm"
           onPress={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
         >

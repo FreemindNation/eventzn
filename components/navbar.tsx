@@ -15,6 +15,8 @@ import clsx from "clsx";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import { Avatar, Tooltip } from "@heroui/react";
+
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
@@ -22,6 +24,7 @@ import { ThemeSwitch } from "@/components/theme-switch";
 export const Navbar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
+
 
   //Filter "Dashboard" if user is not an Admin
   const filteredNavItems = siteConfig.navItems.filter(
@@ -65,9 +68,19 @@ export const Navbar = () => {
 
       {/* Navbar Right Side */}
       <NavbarContent className="hidden lg:flex basis-1/3" justify="end">
+        {session?.user && (
+          <Tooltip content={<span>Logged in as {session?.user.name}</span>}>
+            <Avatar
+              isBordered
+              showFallback
+              alt="User Avatar"
+              className="w-8 h-8 rounded-full"
+              src={session.user.image}
+            />
+          </Tooltip>
+        )}
         <ThemeSwitch />
         {session?.user ? (
-         
           <Button
             className="bg-purple-700 text-white dark:text-white font-semibold rounded-md hover:underline focus:outline-none focus:ring-2  px-4 py-2"
             variant="flat"
@@ -76,12 +89,21 @@ export const Navbar = () => {
             Sign Out
           </Button>
         ) : (
-        
           <>
-            <Button as={NextLink} color="primary" href="/sign-in" variant="flat">
+            <Button
+              as={NextLink}
+              color="primary"
+              href="/sign-in"
+              variant="flat"
+            >
               Sign In
             </Button>
-            <Button as={NextLink} color="primary" href="/sign-up" variant="solid">
+            <Button
+              as={NextLink}
+              color="primary"
+              href="/sign-up"
+              variant="solid"
+            >
               Sign Up
             </Button>
           </>
@@ -89,12 +111,23 @@ export const Navbar = () => {
       </NavbarContent>
 
       {/* Navbar Menu Toggle for Mobile */}
-      <NavbarContent className="lg:hidden basis-1/3" justify="end">
+      <NavbarContent className="lg:hidden basis-1/3 flex items-center gap-6" justify="end">
+        {session?.user && (
+          <Tooltip content={<span>Logged in as {session?.user.name}</span>}>
+            <Avatar
+              isBordered
+              showFallback
+              alt="User Avatar"
+              className="w-8 h-8 rounded-full"
+              src={session.user.image}
+            />
+          </Tooltip>
+        )}
         <NavbarMenuToggle />
       </NavbarContent>
 
       {/* Mobile Navbar Menu */}
-      <NavbarMenu>
+      <NavbarMenu >
         <div className="flex flex-col gap-4 mt-2 px-4">
           <NavbarMenuItem>
             <ThemeSwitch />
@@ -106,7 +139,9 @@ export const Navbar = () => {
                 className="bg-purple-700 text-white dark:text-white font-semibold rounded-md hover:underline focus:outline-none focus:ring-2  px-4 py-2"
                 // color="danger"
                 variant="flat"
-                onPress={() => signOut()}
+                onPress={() => 
+                  signOut() 
+                   }
               >
                 Sign Out
               </Button>
@@ -115,13 +150,23 @@ export const Navbar = () => {
             <>
               <NavbarMenuItem>
                 {/* Sign In Button for Mobile */}
-                <Button as={NextLink} color="primary" href="/sign-in" variant="flat">
+                <Button
+                  as={NextLink}
+                  color="primary"
+                  href="/sign-in"
+                  variant="flat"
+                >
                   Sign In
                 </Button>
               </NavbarMenuItem>
               <NavbarMenuItem>
                 {/* Sign Up Button for Mobile */}
-                <Button as={NextLink} color="primary" href="/sign-up" variant="solid">
+                <Button
+                  as={NextLink}
+                  color="primary"
+                  href="/sign-up"
+                  variant="solid"
+                >
                   Sign Up
                 </Button>
               </NavbarMenuItem>

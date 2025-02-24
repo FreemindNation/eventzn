@@ -117,15 +117,16 @@ export default function SignUpEventPage() {
                     <strong className="font-bold">🎉 You have successfully registered for this event!</strong>
                   </Alert>
                 </ModalBody>
-                <ModalFooter className="flex justify-between">
-                  <Button as={Link} color="secondary" href="/" variant="light">
+                <ModalFooter className="flex flex-wrap justify-center gap-2 mt-4 w-full">
+                  <Button as={Link} className="w-full sm:w-auto" color="secondary" href="/" variant="light">
                     View more events
                   </Button>
-                  <Button as={Link} color="secondary" href="/profile" variant="light">
+                  <Button as={Link} className="w-full sm:w-auto" color="secondary" href="/profile" variant="light">
                     My Events
                   </Button>
                   <Button
                     as={Link}
+                    className="w-full sm:w-auto"
                     color="secondary"
                     href={getGoogleCalendarLink()}
                     rel="noopener noreferrer"
