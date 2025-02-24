@@ -29,7 +29,6 @@ export default function EventsPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         const { events, totalEvents } = await fetchFilteredEvents(
           query,
