@@ -25,7 +25,13 @@ export async function fetchFilteredEvents(query = "", category = "", page = 1) {
 }
 
 export async function fetchEvent(id: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXTAUTH_URL;
+
+  //Use `NEXT_PUBLIC_BASE_URL` for client-side fetches
+  //Use `NEXTAUTH_URL` for server-side fetches
+  const baseUrl =
+    typeof window !== "undefined"
+      ? process.env.NEXT_PUBLIC_BASE_URL
+      : process.env.NEXTAUTH_URL;
 
   if (!baseUrl) {
     console.error("Base URL is missing! Set NEXT_PUBLIC_BASE_URL or NEXTAUTH_URL in env variables.");
