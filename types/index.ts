@@ -42,6 +42,7 @@ export type EventFormState = {
     imageUrl?: string[];
   };
   success?: boolean;
+  redirect?: string;
 };
 
 export interface FormattedEvent {

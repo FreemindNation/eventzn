@@ -24,9 +24,9 @@ export default function DashboardPage() {
   const [events, setEvents] = useState<any[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState(true);
-  const [showDeletedAlert, setShowDeletedAlert] = useState(
-    searchParams.get("deleted") === "true"
-  );
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [showAlert, setShowAlert] = useState(false);
+  
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -44,17 +44,37 @@ export default function DashboardPage() {
   
     fetchEvents();
   }, [query, category, currentPage]);
+
+  const clearSuccessMessage = () => {
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    newParams.delete("created");
+    newParams.delete("updated");
+    newParams.delete("deleted");
+    
+    router.replace(`/dashboard/events?${newParams.toString()}`, { scroll: false });
+    setAlertMessage(null);
+    setShowAlert(false);
+  };
   
-
   useEffect(() => {
-    if (showDeletedAlert) {
-      router.replace("/dashboard/events", { scroll: false });
-    }
-  }, [showDeletedAlert, router]);
+    const created = searchParams.get("created") === "true";
+    const updated = searchParams.get("updated") === "true";
+    const deleted = searchParams.get("deleted") === "true";
 
+    if (created) setAlertMessage("Event created successfully!");
+    if (updated) setAlertMessage("Event updated successfully!");
+    if (deleted) setAlertMessage("Event deleted successfully!");
+
+    if (created || updated || deleted) {
+      setShowAlert(true);
+    }
+  }, [searchParams]);
+
+  
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Manage Events</h1>
+      <h1 className="text-2xl font-bold mb-6">Manage Events</h1>
 
       <Card className="mt-6">
         <CardHeader className="flex justify-between items-center">
@@ -71,12 +91,12 @@ export default function DashboardPage() {
         </CardHeader>
 
         <CardBody>
-          {showDeletedAlert && (
-            <Alert className="mb-4" color="success" onClose={() => setShowDeletedAlert(false)}>
-              Event deleted successfully.
+           {/*Show success messages */}
+           {showAlert && alertMessage && (
+            <Alert className="mb-4" color="success" onClose={clearSuccessMessage}>
+              {alertMessage}
             </Alert>
           )}
-
           <EventSearchFilter />
           {loading ? <p>Loading events...</p> : <EventsTable events={events} totalPages={totalPages} />}
         </CardBody>

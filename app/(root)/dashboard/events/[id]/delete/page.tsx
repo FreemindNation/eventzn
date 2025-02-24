@@ -17,7 +17,7 @@ export default async function DeleteEventPage({ params }: { params: Promise<{ id
   const { id } = await params;
   const event = await getEvent(id);
 
-  if (!event) return notFound(); // Show 404 if event does not exist
+  if (!event) return notFound(); 
 
   return (
     <div className="max-w-3xl mx-auto p-6">
@@ -32,7 +32,7 @@ export default async function DeleteEventPage({ params }: { params: Promise<{ id
 
       <div className="flex gap-4 mt-6">
         <form action={deleteEventAction.bind(null, id)}>
-          <Button type="submit" color="danger">
+          <Button color="danger" type="submit">
             Yes, Delete
           </Button>
         </form>

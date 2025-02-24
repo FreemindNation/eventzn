@@ -18,6 +18,8 @@ import { CreateEventAction } from "@/lib/actions/create-event";
 const initialState: EventFormState = {
   error: "",
   validationErrors: {},
+  success: false,
+  redirect: "", 
 };
 
 export default function CreateEventForm() {
@@ -31,10 +33,10 @@ export default function CreateEventForm() {
   );
 
   useEffect(() => {
-    if (state.success) {
-      router.push("/dashboard");
+    if (state.success && state.redirect) {
+      router.push(state.redirect);
     }
-  }, [state.success, router]);
+  }, [state.success, state.redirect, router]);
 
   return (
     <Card className="max-w-3xl mx-auto">

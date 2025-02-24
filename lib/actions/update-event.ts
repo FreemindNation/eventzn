@@ -6,6 +6,7 @@ import { updateEvent } from "@/lib/services/event-service";
 import { EventSchema } from "@/lib/validation";
 import { EventFormState } from "@/types";
 
+
 export async function updateEventAction(
   eventId: string,
   prevState: EventFormState,
@@ -46,7 +47,7 @@ export async function updateEventAction(
 
     if (!validatedData.success) {
       return {
-        error: "Validation failed.",
+        error: "Failed to edit event.",
         validationErrors: validatedData.error.flatten().fieldErrors,
       };
     }
@@ -54,15 +55,16 @@ export async function updateEventAction(
 
     
     await updateEvent(eventId, validatedData.data);
-
     
     revalidatePath("/dashboard");
+    
 
-    return { error: "", validationErrors: {}, success: true };
-
+    
+    return { error: "", validationErrors: {}, success: true, redirect: "/dashboard/events?updated=true"  };
+    
   } catch (error) {
     console.error("Error in updateEventAction:", error);
-
+    
     return { error: "Failed to update event. Please try again.", validationErrors: {}, success: false };
   }
 }

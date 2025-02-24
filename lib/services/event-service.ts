@@ -27,7 +27,7 @@ export async function getFilteredEvents(
 
   const skip = (page - 1) * perPage;
 
-  try {
+ 
     const where: any = {};
 
     if (query) {
@@ -68,13 +68,8 @@ export async function getFilteredEvents(
     }));
 
     return { events: formattedEvents, totalEvents };
-  } catch (error) {
-    console.error("Error in getFilteredEvents service:", error);
-    
-    return { events: [],
-    totalEvents: 0,};
-  }
-}
+  } 
+  
 
 
 export async function getEvent(id: string): Promise<FormattedEvent | null> {
@@ -111,7 +106,7 @@ export async function getEvent(id: string): Promise<FormattedEvent | null> {
 
 
 export async function createEvent(eventData: any) {
-  try {
+  
 
     if (!eventData) {
       throw new Error("Event data is missing or invalid.");
@@ -128,14 +123,10 @@ export async function createEvent(eventData: any) {
     });
 
     return newEvent;
-  } catch (error) {
-    console.error("Error in createEvent service:", error);
-    throw new Error("Failed to create event.");
   }
-}
 
 export async function updateEvent(eventId: string, eventData: EventData) {
-  try {
+
   
     
     
@@ -149,22 +140,16 @@ export async function updateEvent(eventId: string, eventData: EventData) {
     });
 
     return updatedEvent;
-  } catch (error) {
-    console.error("Error in updateEvent service:", error);
-    throw new Error("Failed to update event.");
-  }
-}
+  } 
 
 export async function deleteEvent(eventId: string) {
   
-  try {
+  
     await prisma.event.delete({
       where: { id: eventId },
     });
-  } catch (error) {
-    console.error("Error deletingevent:", error);
-    throw new Error("Failed to delete event.")
-  }
-}
+  } 
+  
+
 
 

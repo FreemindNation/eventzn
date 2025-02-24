@@ -1,24 +1,17 @@
 import prisma from "@/lib/prisma";
 
 export async function registerUserForEvent(userId: string, eventId: string) {
-  try {
+  const existingRegistration = await prisma.registration.findUnique({
+    where: { userId_eventId: { userId, eventId } },
+  });
 
-    const existingRegistration = await prisma.registration.findUnique({
-      where: { userId_eventId: { userId, eventId } },
-    });
-
-    if (existingRegistration) {
-      throw new Error("You are already registered for this event.");
-    }
-
-    
-    const registration = await prisma.registration.create({
-      data: { userId, eventId },
-    });
-
-    return { success: true, registration };
-  } catch (error) {
-    console.error("Registration error:", error);
-    throw new Error("Failed to register for the event.");
+  if (existingRegistration) {
+    throw new Error("You are already registered for this event.");
   }
+
+  const registration = await prisma.registration.create({
+    data: { userId, eventId },
+  });
+
+  return { success: true, registration };
 }

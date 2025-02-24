@@ -36,6 +36,7 @@ const initialState: EventFormState = {
   error: "",
   validationErrors: {},
   success: false,
+  redirect: "", 
 };
 
 export default function UpdateEventForm({ eventData }: UpdateEventFormProps) {
@@ -51,10 +52,10 @@ export default function UpdateEventForm({ eventData }: UpdateEventFormProps) {
   
 
   useEffect(() => {
-    if (state.success) {
-      router.push("/dashboard");
+    if (state.success && state.redirect) {
+      router.push(state.redirect);
     }
-  }, [state.success, router]);
+  }, [state.success, state.redirect, router]);
 
   return (
     <Card className="max-w-3xl mx-auto">

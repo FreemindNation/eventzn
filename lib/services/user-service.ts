@@ -28,7 +28,7 @@ export async function getUserRegistrations(userId: string) {
 
 
 export async function getUsers(page = 1, limit = 10) {
-  try {
+
 
     const skip = (page - 1) * limit;
 
@@ -61,9 +61,6 @@ export async function getUsers(page = 1, limit = 10) {
       })),
       totalUsers,
     };
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    return [];
   }
-}
+
 

@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
     const { users, totalUsers } = await getUsers(page, limit);
 
-    return NextResponse.json({ users, totalUsers });
+    return NextResponse.json({ users, totalUsers }, { status: 200 });
   } catch (error) {
     console.error("Error fetching users:", error);
 

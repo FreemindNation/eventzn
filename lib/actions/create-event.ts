@@ -6,6 +6,7 @@ import { createEvent } from "@/lib/services/event-service";
 import { EventSchema } from "@/lib/validation";
 import { EventFormState } from "@/types";
 
+
 export async function CreateEventAction(prevState: EventFormState, formData: FormData) {
   try {
     const rawData = {
@@ -39,12 +40,13 @@ export async function CreateEventAction(prevState: EventFormState, formData: For
     
     await createEvent(validatedData.data);
 
-    revalidatePath("/dashboard");
-
-    return { error: "", validationErrors: {}, success: true };
+    
+    revalidatePath("/dashboard/events");
+    
+    return { error: "", validationErrors: {}, success: true, redirect:"/dashboard/events?created=true" };
   } catch (error) {
     console.error("Error in createEventAction:", error);
-
+    
     return { error: "Failed to create event. Please try again.", validationErrors: {} };
   }
 }

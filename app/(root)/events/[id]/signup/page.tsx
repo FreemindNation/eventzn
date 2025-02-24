@@ -61,7 +61,7 @@ export default function SignUpEventPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to book ticket.");
+        throw new Error(data.message || "Failed to book ticket.");
       }
 
       setSuccess(true);
@@ -87,7 +87,7 @@ export default function SignUpEventPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-900 shadow-md  mt-40 rounded-lg">
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {!event ? (
         <p>Loading event details...</p>
@@ -132,7 +132,7 @@ export default function SignUpEventPage() {
                     target="_blank"
                     variant="light"
                   >
-                    Add to Calendar
+                    Add to Google Calendar
                   </Button>
                 </ModalFooter>
               </ModalContent>

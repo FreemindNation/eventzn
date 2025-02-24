@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           title={
             <div className="flex items-center gap-2">
               <CalendarDaysIcon className="w-5 h-5" />
-              <span>Events</span>
+              <span className="text-lg font-semibold">Events</span>
             </div>
           }
         />
@@ -32,7 +32,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           title={
             <div className="flex items-center gap-2">
               <UsersIcon className="w-5 h-5" />
-              <span>Users</span>
+              <span className="text-lg font-semibold">Users</span>
             </div>
           }
         />
