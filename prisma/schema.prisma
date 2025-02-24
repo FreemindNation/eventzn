@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // Connection pooling URL
-  directUrl = env("POSTGRES_URL_NON_POOLING") // Direct connection URL
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")  // PgBouncer-enabled Supavisor connection
+  directUrl = env("DIRECT_URL")    // Direct connection for migrations
 }
 
 model User {
