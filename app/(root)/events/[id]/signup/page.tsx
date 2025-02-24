@@ -25,11 +25,19 @@ export default function SignUpEventPage() {
     if (!params.id) return;
 
     const loadEvent = async () => {
+
+      console.log("Fetching event with ID:", params.id);
       try {
         const eventData = await fetchEvent(params.id as string);
+
+        if (!eventData) {
+          throw new Error("Event data is null or undefined.");
+        }
         
+        console.log("✅ Fetched Event Data:", eventData);
         setEvent(eventData);
       } catch (err) {
+        console.error("Error loading event:", err);
         setError("Failed to load event details.");
       }
     };
