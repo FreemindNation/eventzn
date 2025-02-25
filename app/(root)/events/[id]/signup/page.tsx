@@ -6,8 +6,9 @@ import { useRouter, useParams } from "next/navigation";
 import { Button } from "@heroui/button";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import { Alert } from "@heroui/alert";
-import dayjs from "dayjs"; 
 import { Link } from "@heroui/link";
+import { CalendarIcon, MapPinIcon, TagIcon, TicketIcon } from "@heroicons/react/24/outline";
+import dayjs from "dayjs"; 
 
 import { fetchEvent } from "@/lib/data";
 import { capitaliseFirstWord, formatDate, formatPrice } from "@/lib/utils";
@@ -24,21 +25,20 @@ export default function SignUpEventPage() {
   useEffect(() => {
     if (!params.id) return;
 
-    const loadEvent = async () => {
+    setIsLoading(true);
 
-      console.log("Fetching event with ID:", params.id);
+    const loadEvent = async () => {
       try {
         const eventData = await fetchEvent(params.id as string);
 
         if (!eventData) {
           throw new Error("Event data is null or undefined.");
         }
-        
-        console.log("✅ Fetched Event Data:", eventData);
         setEvent(eventData);
       } catch (err) {
-        console.error("Error loading event:", err);
         setError("Failed to load event details.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -48,7 +48,7 @@ export default function SignUpEventPage() {
   const handleBookTicket = async () => {
     if (!session?.user) {
       router.push("/sign-in");
-
+      
       return;
     }
 
@@ -80,7 +80,6 @@ export default function SignUpEventPage() {
     }
   };
 
-  
   const getGoogleCalendarLink = () => {
     if (!event) return "#";
 
@@ -94,24 +93,51 @@ export default function SignUpEventPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-900 shadow-md  mt-40 rounded-lg">
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-900 shadow-md mt-20 rounded-lg">
+      <h1 className="text-2xl font-bold mb-4 text-center">🎟️ Confirm Your Ticket</h1>
+      <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
+        Please review the event details below and click <strong>Book Ticket</strong> to confirm your ticket.
+      </p>
 
-      {!event ? (
-        <p>Loading event details...</p>
-      ) : (
+      {error ? (
+        <p className="text-red-500 text-center mb-4">{error}</p>
+      ) : isLoading ? (
+        <p className="text-gray-500 text-center">Loading event details...</p>
+      ) : event ? (
         <>
-          <h1 className="text-2xl font-bold mb-4">{capitaliseFirstWord(event.title)}</h1>
-          <p className="text-gray-500">{event.description}</p>
-          <p className="mt-2 font-semibold">Date & Time: {formatDate(event.startTime)} - {formatDate(event.endTime)}</p>
-          <p className="mt-1">Location: {event.location}</p>
-          <p className="mt-1">Category: {event.category}</p>
-          <p className="mt-1 font-semibold">
-            {event.isFree ? "Free Event" : `Ticket Price: ${formatPrice(event.ticketPrice)}`}
-          </p>
+          <h2 className="text-xl font-semibold text-center mb-4">{capitaliseFirstWord(event.title)}</h2>
+          <p className="text-gray-500 text-center mb-4">{event.description}</p>
+
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+              <CalendarIcon className="w-6 h-6 min-w-6 text-primary" />
+              <span className="font-semibold">Date & Time:</span>
+              <span>{formatDate(event.startTime)} - {formatDate(event.endTime)}</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+              <MapPinIcon className="w-6 h-6 text-primary" />
+              <span className="font-semibold">Location:</span>
+              <span>{event.location}</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+              <TagIcon className="w-6 h-6 text-primary" />
+              <span className="font-semibold">Category:</span>
+              <span>{event.category}</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+              <TicketIcon className="w-6 h-6 text-primary" />
+              <span className="font-semibold">Price:</span>
+              <span>{event.isFree ? "Free Event" : formatPrice(event.ticketPrice)}</span>
+            </div>
+          </div>
 
           {!success && (
-            <Button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400" disabled={isLoading} onPress={handleBookTicket}>
+            <Button
+              className="mt-6   text-white px-4 py-2 rounded hover:bg-blue-800 disabled:bg-gray-400"
+              color="primary"
+              disabled={isLoading}
+              onPress={handleBookTicket}
+            >
               {isLoading ? "Booking..." : "Book Ticket"}
             </Button>
           )}
@@ -148,6 +174,8 @@ export default function SignUpEventPage() {
             </Modal>
           )}
         </>
+      ) : (
+        <p className="text-gray-500 text-center">No event found.</p>
       )}
     </div>
   );

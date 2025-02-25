@@ -30,7 +30,7 @@ export async function fetchEvent(id: string) {
   //Use `NEXTAUTH_URL` for server-side fetches
   const baseUrl =
     typeof window !== "undefined"
-      ? process.env.NEXT_PUBLIC_BASE_URL
+      ? process.env.NEXT_PUBLIC_BASE_URL 
       : process.env.NEXTAUTH_URL;
 
   if (!baseUrl) {
@@ -39,19 +39,10 @@ export async function fetchEvent(id: string) {
     return null;
   }
 
-
-  const apiUrl = `${baseUrl}/api/events/${id}`;
-
-  console.log(`🔍 Fetching event from: ${apiUrl}`); // Debugging log
-
   try {
     const res = await fetch(`${baseUrl}/api/events/${id}`, {
       cache: "no-store",
     });
-
-    console.log("Fetch Response Status:", res.status);
-    console.log("Fetch Response Content-Type:", res.headers.get("content-type"));
-
 
     if (!res.ok) {
       const errorData = await res.json();
@@ -61,7 +52,7 @@ export async function fetchEvent(id: string) {
 
     const data = await res.json();
 
-    console.log("Fetched Event Data:", data);
+    
 
     return data;
   } catch (error) {

@@ -75,8 +75,9 @@ Ensure you have the following installed:
 
 3. **Set up Enviroment variables**
     ```bash
-    POSTGRES_URL=your_database_url
-    POSTGRES_URL_NON_POOLING=your_direct_database_url
+    DATABASE_URL=your_database_url
+    DIRECT_URL=your_direct_database_url
+    NEXT_PUBLIC_BASE_URL=http://localhost:3000
     NEXTAUTH_SECRET=your_nextauth_secret
     NEXTAUTH_URL=http://localhost:3000
     GOOGLE_CLIENT_ID=your_google_client_id
